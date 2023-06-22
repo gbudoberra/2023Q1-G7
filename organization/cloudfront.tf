@@ -1,106 +1,16 @@
 module "cdn" {
-  source = "terraform-aws-modules/cloudfront/aws"
+  
+  bucket_logs = module.logs_bucket["cdn"].s3_bucket_bucket_domain_name
 
+  domain_backend = module.apigw.domain_name
 
-  tags = {
-    Name = "Cloudfront"
-  }
+  domain_frontend = module.site_bucket.s3_bucket_bucket_domain_name
 
+  origin_backend   = module.apigw.id
+  
+  origin_frontend   = module.site_bucket.s3_bucket_id
 
-  #  Any comments you want to include about the distribution.
-  comment         = "CloudFront-Adoptemos-Todos"
-  enabled         = true
-  is_ipv6_enabled = true
+  target_backend       = module.site_bucket.s3_bucket_id
 
-  #  The price class for this distribution. One of PriceClass_All, PriceClass_200, PriceClass_100
-  price_class = "PriceClass_All"
-
-  retain_on_delete    = false
-  wait_for_deployment = true
-
-  # When you enable additional metrics for a distribution, CloudFront sends up to 8 metrics to CloudWatch in the US East (N. Virginia) Region.
-  # This rate is charged only once per month, per metric (up to 8 metrics per distribution).
-  # create_monitoring_subscription = true
-
-  #  Controls if CloudFront origin access identity should be created
-  create_origin_access_identity = true
-  origin_access_identities = {
-    frontend_s3_bucket = "My awesome CloudFront can access"
-  }
-
-  #  The logging configuration that controls how logs are written to your distribution (maximum one).
-  logging_config = {
-    bucket = module.logs-bucket["cdn"].s3_bucket_bucket_domain_name
-    prefix = "log/"
-  }
-
-  #  One or more origins for this distribution (multiples allowed).
-  origin = {
-    api = {
-      domain_name = module.apigw.domain_name
-      origin_id   = module.apigw.id
-
-      custom_origin_config = {
-        http_port              = 80
-        https_port             = 443
-        origin_protocol_policy = "https-only"
-        origin_ssl_protocols   = ["TLSv1.2"]
-      }
-
-    }
-
-    frontend = {
-      domain_name = module.site_bucket.s3_bucket_bucket_domain_name
-      origin_id   = module.site_bucket.s3_bucket_id
-      s3_origin_config = {
-        origin_access_identity = "frontend_s3_bucket"
-      }
-    }
-
-  }
-
-  default_root_object = "index.html"
-
-  #  The default cache behavior for this distribution
-  default_cache_behavior = {
-    target_origin_id       = module.site_bucket.s3_bucket_id
-    viewer_protocol_policy = "allow-all"
-
-    allowed_methods = ["GET", "HEAD", "OPTIONS"]
-    cached_methods  = ["GET", "HEAD"]
-    compress        = true
-    query_string    = true
-
-    min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
-
-  }
-
-  ordered_cache_behavior = [
-    {
-      path_pattern           = "prod_stage/*"
-      target_origin_id       = module.apigw.id
-      viewer_protocol_policy = "redirect-to-https"
-
-      allowed_methods = ["GET", "HEAD", "OPTIONS", "DELETE", "PUT", "PATCH", "POST"]
-      cached_methods  = ["GET", "HEAD"]
-
-      compress     = true
-      query_string = true
-
-      min_ttl     = 0
-      default_ttl = 3600
-      max_ttl     = 86400
-    }
-  ]
-
-
-  geo_restriction = {
-    restriction_type = "none"
-  }
-
-  viewer_certificate = {
-    cloudfront_default_certificate = true
-  }
+  target_frontend      = module.apigw.id
 }
