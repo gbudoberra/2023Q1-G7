@@ -1,12 +1,15 @@
 #!/bin/bash
 
-(cd ./applications && ./generate_applications_zips.sh)
+directories=("applications" "pets" "ongs")
 
-# Loop through each .py file in the directory
-for file in "."/*.py; do
-    # Get the filename without extension
-    filename=$(basename "$file" .py)
-    
-    # Create the .zip file using tar
-    zip -j "./$filename.zip" "$file"
+for dir in "${directories[@]}"; do
+    echo "Executing in directory: $dir"
+    (
+        cd "$dir" || exit 1
+        for file in "."/*.py; do
+            filename=$(basename "$file" .py)
+            zip -j "./$filename.zip" "$file"
+        done
+    )
+    echo "Completed execution in directory: $dir"
 done

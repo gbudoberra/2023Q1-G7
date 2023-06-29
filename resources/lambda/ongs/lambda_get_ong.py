@@ -1,6 +1,7 @@
-import boto3
 import json
 from decimal import Decimal
+
+import boto3
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -23,7 +24,7 @@ def main(event, context):
     ong_id = query_parameters['id']
 
     ong_id = int(ong_id)
-    response = table.get_item(Key={'id': ong_id, 'id':int(neighborhood)})
+    response = table.get_item(Key={'id': ong_id, 'neighborhood': neighborhood})
     ong = response.get('Item')
 
     if ong:

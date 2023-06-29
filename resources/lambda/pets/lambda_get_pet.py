@@ -1,6 +1,7 @@
-import boto3
 import json
 from decimal import Decimal
+
+import boto3
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -24,7 +25,7 @@ def main(event, context):
 
     # Retrieve all pets from the DynamoDB table
     ong_id = int(ong_id)
-    response = table.get_item(Key={'ong_id': ong_id, 'id':int(pet_id)})
+    response = table.get_item(Key={'ong_id': ong_id, 'id': int(pet_id)})
     pet = response.get('Item')
 
     # Prepare the response
