@@ -35,6 +35,26 @@ locals {
       method        = "POST"
       path          = "/pets"
       part_path     = "pets"
+    },
+    "get_applications" = {
+      filename      = "${local.path}/lambda/applications/lambda_get_applications.zip"
+      function_name = "get_applications"
+      handler       = "lambda_get_applications.main"
+      description   = "Get applications lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/applications"
+      part_path     = "applications"
+    },
+    "post_application" = {
+      filename      = "${local.path}/lambda/applications/lambda_post_application.zip"
+      function_name = "post_application"
+      handler       = "lambda_post_application.main"
+      description   = "Post application lambda"
+      runtime       = "python3.9"
+      method        = "POST"
+      path          = "/applications"
+      part_path     = "applications"
     }
     "post_ong" = {
       filename      = "${local.path}/lambda/lambda_post_ong.zip"

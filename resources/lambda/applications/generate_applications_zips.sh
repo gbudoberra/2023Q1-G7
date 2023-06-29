@@ -1,7 +1,5 @@
 #!/bin/bash
 
-(cd ./applications && ./generate_applications_zips.sh)
-
 # Loop through each .py file in the directory
 for file in "."/*.py; do
     # Get the filename without extension

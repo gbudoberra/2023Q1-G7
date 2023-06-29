@@ -8,7 +8,7 @@ module "apigw" {
 
   body = jsonencode({
     openapi = "3.0.1",
-    info = {
+    info    = {
       title   = local.apigw.name
       version = "1.0.0"
     }
@@ -53,7 +53,23 @@ module "apigw" {
             type       = "aws_proxy"
           }
         }
-      }
+      },
+      "/applications" = {
+        get = {
+          x-amazon-apigateway-integration = {
+            uri        = module.lambda["get_applications"].invoke_arn
+            httpMethod = "POST"
+            type       = "aws_proxy"
+          }
+        }
+        post = {
+          x-amazon-apigateway-integration = {
+            uri        = module.lambda["post_application"].invoke_arn
+            httpMethod = "POST"
+            type       = "aws_proxy"
+          }
+        }
+      },
     }
 
   })
