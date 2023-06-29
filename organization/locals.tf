@@ -16,6 +16,16 @@ locals {
       path          = "/pets"
       part_path     = "pets"
     },
+    "get_pet" = {
+      filename      = "${local.path}/lambda/lambda_get_pet.zip"
+      function_name = "get_pet"
+      handler       = "lambda_get_pet.main"
+      description   = "Get pet lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/pets/{ong_id}/{pet_id}"
+      part_path     = "pets"
+    },
     "post_pet" = {
       filename      = "${local.path}/lambda/lambda_post_pet.zip"
       function_name = "post_pet"
