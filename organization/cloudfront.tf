@@ -12,7 +12,7 @@ module "cdn" {
   
   origin_frontend   = module.site_bucket.s3_bucket_id
 
-  target_backend       = module.site_bucket.s3_bucket_id
+  target_backend       = module.apigw.id
 
-  target_frontend      = module.apigw.id
+  target_frontend      = module.site_bucket.s3_bucket_id
 }

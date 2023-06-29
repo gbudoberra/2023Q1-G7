@@ -6,7 +6,7 @@ variable "bucket_prefix" {
 
 
 variable "policy" {
-  type        = any
+  type        = string
   description = "Bucket policy"
 }
 
