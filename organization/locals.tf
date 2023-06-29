@@ -45,22 +45,12 @@ locals {
             name = "id"
             type = "N"
           }
-          # , {
-          #   name = "email"    NO SON NECESARIOS PORQUE NO VAN A NINGUN INDEX
-          #   type = "S"
-          # }
-          # , {
-          #   name = "name"
-          #   type = "S"
-          # }
         ]
 
         global_secondary_indexes = []
 
         tags = {
           Entity = "ONG"
-          #                Terraform   = "true"
-          #                Environment = "staging"
         }
 
       }
@@ -84,10 +74,6 @@ locals {
             name = "type"
             type = "N"
           }
-          # , {
-          #   name = "name"  NO ES NECESARIO PORQUE NO VA A NINGUN INDEX
-          #   type = "S"
-          # }
           , {
             name = "age"
             type = "N"
@@ -123,9 +109,54 @@ locals {
 
         tags = {
           entity = "Pet"
-          #                  Terraform   = "true"
-          #                  Environment = "staging"
         }
+      }
+
+      applications = {
+        name = "applications",
+        hash_key  = "ong_id"
+        range_key = "id"
+
+        attributes = [
+          {
+            name = "ong_id"
+            type = "N"
+          },
+          {
+            name = "pet_id"
+            type = "N"
+          },
+          {
+            name = "id"
+            type = "N"
+          },
+          {
+            name = "situation"
+            type = "N"
+          }
+        ]
+
+        global_secondary_indexes = [
+          {
+            name            = "PetIndex"
+            hash_key        = "pet_id"
+            write_capacity  = 5
+            read_capacity   = 5
+            projection_type = "ALL"
+          },
+          {
+            name            = "SituationIndex"
+            hash_key        = "situation"
+            write_capacity  = 5
+            read_capacity   = 5
+            projection_type = "ALL"
+          }
+        ]
+
+        tags = {
+          Entity = "Application"
+        }
+
       }
     }
   }
