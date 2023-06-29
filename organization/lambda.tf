@@ -2,9 +2,6 @@ module "lambda" {
   for_each = local.lambdas
   source   = "../modules/lambda"
 
-  providers = {
-    aws = aws.aws
-  }
 
   lambda_info = each.value
   account_id  = data.aws_caller_identity.current.account_id

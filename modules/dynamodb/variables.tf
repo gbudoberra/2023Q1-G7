@@ -15,17 +15,17 @@ variable "range_key" {
 }
 
 variable "attributes" {
-  type        = string
+  type        = list(map(string))
   description = "Table attributes"
 }
 
 variable "tags" {
-  type        = string
+  type        = map(string)
   description = "Table tags"
 }
 
 variable "global_secondary_indexes" {
-  type        = string
+  type        = any
   description = "Table indexes"
 }
 

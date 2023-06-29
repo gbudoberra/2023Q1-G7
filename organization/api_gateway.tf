@@ -1,9 +1,6 @@
 module "apigw" {
   source = "../modules/api_gateway"
 
-  providers = {
-    aws = aws.aws
-  }
   name            = local.apigw.name
   description     = local.apigw.description
   aws_region_name = data.aws_region.current.name

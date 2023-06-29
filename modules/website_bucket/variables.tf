@@ -6,7 +6,7 @@ variable "bucket_prefix" {
 
 
 variable "policy" {
-  type        = string
+  type        = any
   description = "Bucket policy"
 }
 
@@ -22,7 +22,7 @@ variable "logs_prefix" {
 }
 
 variable "default_server_side_encryption" {
-  type        = string
+  type        = any
   description = "Server side encryption"
 }
 

@@ -10,7 +10,7 @@ module "site_bucket" {
 
   logs_prefix = local.buckets.logs_prefix
 
-  server_side_encryption_configuration = local.buckets.default_server_side_encryption
+  default_server_side_encryption = local.buckets.default_server_side_encryption
 
 }
 

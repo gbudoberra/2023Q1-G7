@@ -7,6 +7,6 @@ module "logs_bucket" {
   bucket_prefix = each.value
 
 
-  server_side_encryption_configuration = local.buckets.default_server_side_encryption
+  default_server_side_encryption = local.buckets.default_server_side_encryption
 
 }

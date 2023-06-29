@@ -1,4 +1,6 @@
 module "cdn" {
+
+  source = "../modules/cloudfront"
   
   bucket_logs = module.logs_bucket["cdn"].s3_bucket_bucket_domain_name
 
