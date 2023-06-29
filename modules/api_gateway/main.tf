@@ -20,11 +20,10 @@ resource "aws_api_gateway_deployment" "this" {
     create_before_destroy = true
   }
 
-
 }
 
 resource "aws_api_gateway_stage" "this" {
   deployment_id = aws_api_gateway_deployment.this.id
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  stage_name    = "prod_stage"
+  stage_name    = var.stage_name
 }

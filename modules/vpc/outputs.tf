@@ -9,7 +9,7 @@ output "subnet_ids" {
 }
 
 output "vpc_id" {
-  description = "VPC id"
+  description = "Id of the VPC"
   value       = aws_vpc.this.id
 }
 

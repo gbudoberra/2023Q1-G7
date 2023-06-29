@@ -23,3 +23,9 @@ variable "description" {
   type        = string
   description = "Description of the API"
 }
+
+variable "stage_name" {
+  type        = string
+  description = "Stage name to deploy this API-GW"
+  default = "prod_stage"
+}
