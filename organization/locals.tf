@@ -16,6 +16,16 @@ locals {
       path          = "/pets"
       part_path     = "pets"
     },
+    "get_pet" = {
+      filename      = "${local.path}/lambda/lambda_get_pet.zip"
+      function_name = "get_pet"
+      handler       = "lambda_get_pet.main"
+      description   = "Get pet lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/pets/{ong_id}/{pet_id}"
+      part_path     = "pets"
+    }
     "post_pet" = {
       filename      = "${local.path}/lambda/lambda_post_pet.zip"
       function_name = "post_pet"
@@ -25,6 +35,26 @@ locals {
       method        = "POST"
       path          = "/pets"
       part_path     = "pets"
+    }
+    "post_ong" = {
+      filename      = "${local.path}/lambda/lambda_post_ong.zip"
+      function_name = "post_ong"
+      handler       = "lambda_post_ong.main"
+      description   = "Post ong lambda"
+      runtime       = "python3.9"
+      method        = "POST"
+      path          = "/ongs"
+      part_path     = "ongs"
+    }
+    "get_ong" = {
+      filename      = "${local.path}/lambda/lambda_get_ong.zip"
+      function_name = "get_ong"
+      handler       = "lambda_get_ong.main"
+      description   = "Get ong lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/ongs/{neighborhood}/{ong_id}"
+      part_path     = "ong"
     }
   }
 

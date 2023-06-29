@@ -29,6 +29,31 @@ module "apigw" {
           }
         }
       }
+      "/pet" = {
+        get = {
+          x-amazon-apigateway-integration = {
+            uri        = module.lambda["get_pet"].invoke_arn
+            httpMethod = "POST"
+            type       = "aws_proxy"
+          }
+        }
+      }
+      "/ongs" = {
+        get = {
+          x-amazon-apigateway-integration = {
+            uri        = module.lambda["get_ong"].invoke_arn
+            httpMethod = "POST"
+            type       = "aws_proxy"
+          }
+        }
+        post = {
+          x-amazon-apigateway-integration = {
+            uri        = module.lambda["post_ong"].invoke_arn
+            httpMethod = "POST"
+            type       = "aws_proxy"
+          }
+        }
+      }
     }
 
   })
