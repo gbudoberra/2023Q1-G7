@@ -8,11 +8,6 @@ variable "account_id" {
   description = "AWS Account ID"
 }
 
-variable "body" {
-  type        = string
-  description = "API Body"
-}
-
 
 variable "name" {
   type        = string
@@ -33,4 +28,39 @@ variable "stage_name" {
 variable "cognito_user_pool_arn" {
   type        = string
   description = "ARN Cognito"
+}
+
+variable "get_pets_arn" {
+  type        = string
+  description = "ARN get pets lambda"
+}
+
+variable "post_pets_arn" {
+  type        = string
+  description = "ARN post pets lambda"
+}
+
+variable "get_pet_arn" {
+  type        = string
+  description = "ARN get pet lambda"
+}
+
+variable "get_ongs_arn" {
+  type        = string
+  description = "ARN get ongs lambda"
+}
+
+variable "post_ongs_arn" {
+  type        = string
+  description = "ARN post ongs lambda"
+}
+
+variable "get_apps_arn" {
+  type        = string
+  description = "ARN get apps lambda"
+}
+
+variable "post_apps_arn" {
+  type        = string
+  description = "ARN post apps lambda"
 }
