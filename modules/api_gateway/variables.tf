@@ -29,3 +29,8 @@ variable "stage_name" {
   description = "Stage name to deploy this API-GW"
   default = "prod_stage"
 }
+
+variable "cognito_user_pool_arn" {
+  type        = string
+  description = "ARN Cognito"
+}

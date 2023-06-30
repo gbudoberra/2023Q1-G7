@@ -27,3 +27,13 @@ resource "aws_api_gateway_stage" "this" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   stage_name    = var.stage_name
 }
+
+resource "aws_api_gateway_authorizer" "api_cognito" {
+  name        = "api_cognito"
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  type        = "COGNITO_USER_POOLS"
+  
+  provider_arns = [
+    var.cognito_user_pool_arn
+  ]
+}

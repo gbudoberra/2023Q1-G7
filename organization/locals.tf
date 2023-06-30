@@ -7,7 +7,7 @@ locals {
   path = "../resources"
   lambdas = {
     "get_pets" = {
-      filename      = "${local.path}/lambda/lambda_get_pets.zip"
+      filename      = "${local.path}/lambda/pets/lambda_get_pets.zip"
       function_name = "get_pets"
       handler       = "lambda_get_pets.main"
       description   = "Get pets lambda"
@@ -17,7 +17,7 @@ locals {
       part_path     = "pets"
     },
     "get_pet" = {
-      filename      = "${local.path}/lambda/lambda_get_pet.zip"
+      filename      = "${local.path}/lambda/pets/lambda_get_pet.zip"
       function_name = "get_pet"
       handler       = "lambda_get_pet.main"
       description   = "Get pet lambda"
@@ -27,7 +27,7 @@ locals {
       part_path     = "pets"
     }
     "post_pet" = {
-      filename      = "${local.path}/lambda/lambda_post_pet.zip"
+      filename      = "${local.path}/lambda/pets/lambda_post_pet.zip"
       function_name = "post_pet"
       handler       = "lambda_post_pet.main"
       description   = "Post pet lambda"
@@ -57,7 +57,7 @@ locals {
       part_path     = "applications"
     }
     "post_ong" = {
-      filename      = "${local.path}/lambda/lambda_post_ong.zip"
+      filename      = "${local.path}/lambda/ongs/lambda_post_ong.zip"
       function_name = "post_ong"
       handler       = "lambda_post_ong.main"
       description   = "Post ong lambda"
@@ -67,7 +67,7 @@ locals {
       part_path     = "ongs"
     }
     "get_ong" = {
-      filename      = "${local.path}/lambda/lambda_get_ong.zip"
+      filename      = "${local.path}/lambda/ongs/lambda_get_ong.zip"
       function_name = "get_ong"
       handler       = "lambda_get_ong.main"
       description   = "Get ong lambda"

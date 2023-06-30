@@ -5,6 +5,7 @@ module "apigw" {
   description     = local.apigw.description
   aws_region_name = data.aws_region.current.name
   account_id      = data.aws_caller_identity.current.account_id
+  cognito_user_pool_arn = aws_cognito_user_pool.this.arn
 
   body = jsonencode({
     openapi = "3.0.1",
