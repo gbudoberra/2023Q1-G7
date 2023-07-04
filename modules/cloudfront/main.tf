@@ -87,6 +87,7 @@ module "cdn" {
       cached_methods  = ["GET", "HEAD"]
 
       compress     = true
+      headers      = ["Authorization"]
       query_string = true
 
       min_ttl     = 0
