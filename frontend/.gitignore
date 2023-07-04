@@ -1,0 +1,87 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos y directorios generados por el sistema operativo
+Thumbs.db
+
+# Carpeta de dependencias o paquetes (pueden variar según el lenguaje de programación)
+/node_modules/
+/vendor/
+/.venv/
+
+# Archivos de compilación o construcción
+/build/
+/dist/
+/*.exe
+/*.dll
+/*.so
+/*.dylib
+
+# Archivos de registro y temporales
+*.log
+logs/
+tmp/
+
+# Carpeta de archivos generados por IDEs o editores de código
+.idea
+.idea/*
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de configuración personalizados
+.env
+.env.*.local
+
+# Archivos de credenciales o secretos
+*.pem
+*.key
+*.cert
+*.env
+
+# Otros archivos o directorios específicos de tu proyecto
+# Terraform files
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfplan
+
+# Ignore override files as they are usually used to override resources locally and don't need to be committed
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore .tfvars files that may contain sensitive information
+*.auto.tfvars
+*.auto.tfvars.json
+*.tfvars
+
+# Ignore crash log files
+crash.log
+
+# Ignore local tfstate files
+*.tfstate*
+
+
