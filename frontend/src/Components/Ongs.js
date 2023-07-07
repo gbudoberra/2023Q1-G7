@@ -5,18 +5,18 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 
-function GridExample() {
+function Ongs() {
 
     const context = useContext(MyContext);
-    let [pets, setPets] = useState([])
+    let [ongs, setOngs] = useState([{"ong_id": 1, "neighborhood": "CABA", "name": "adoptemos todos", "email": "adoptemos@gmail.com"}])
 
     useEffect(() => {
-        axios.get(context.cdn.api_gw + 'pets')
+        axios.get(context.cdn.api_gw + 'ongs')
             .then(response => {
                 const list = response.data;
                 console.log(list);
-                setPets(list)
-                console.log(pets)
+                setOngs(list)
+                console.log(ongs)
             })
             .catch(error => {
                 console.error('Error al hacer la solicitud GET:', error);
@@ -24,20 +24,17 @@ function GridExample() {
     }, [])
 
     return (<Row xs={1} md={2} className="g-4">
-            {Array.from({length: 4}).map((_, idx) => (<Col key={idx}>
-                    <Card>
-                        <Card.Img variant="top" src="holder.js/100px160"/>
+            {ongs.map((ong) => (<Col key={ong.id}>
+                    <Card style={{ width: '300px' }}>
                         <Card.Body>
-                            <Card.Title>Card title</Card.Title>
-                            <Card.Text>
-                                This is a longer card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit
-                                longer.
-                            </Card.Text>
+                            <Card.Title>{ong.name}</Card.Title>
+                            {/*{pet.situation === 0 ? <Card.Text>Disponible</Card.Text>:<Card.Text>Adoptado</Card.Text>}*/}
+                            <Card.Text>{ong.neighborhood}</Card.Text>
+                            <Card.Text>{ong.email}</Card.Text>
                         </Card.Body>
                     </Card>
                 </Col>))}
         </Row>);
 }
 
-export default GridExample;
+export default Ongs;

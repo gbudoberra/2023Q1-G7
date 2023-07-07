@@ -1,6 +1,6 @@
 #!/bin/bash
 
-directories=("applications" "pets" "ongs")
+directories=("applications" "pets" "ongs" "cognito")
 
 for dir in "${directories[@]}"; do
     echo "Executing in directory: $dir"

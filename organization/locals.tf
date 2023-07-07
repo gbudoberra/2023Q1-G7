@@ -36,15 +36,25 @@ locals {
       path          = "/pets"
       part_path     = "pets"
     },
-    "get_applications" = {
-      filename      = "${local.path}/lambda/applications/lambda_get_applications.zip"
-      function_name = "get_applications"
-      handler       = "lambda_get_applications.main"
-      description   = "Get applications lambda"
+    "get_applications_ong" = {
+      filename      = "${local.path}/lambda/applications/lambda_get_applications_ong.zip"
+      function_name = "get_applications_ong"
+      handler       = "get_applications_ong.main"
+      description   = "Get applications from ong lambda"
       runtime       = "python3.9"
       method        = "GET"
-      path          = "/applications"
-      part_path     = "applications"
+      path          = "/applications_ong"
+      part_path     = "applications_ong"
+    },
+    "get_applications_adopter" = {
+      filename      = "${local.path}/lambda/applications/lambda_get_applications_adopter.zip"
+      function_name = "get_applications_adopter"
+      handler       = "get_applications_adopter.main"
+      description   = "Get applications from adopter lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/applications_adopter"
+      part_path     = "applications_adopter"
     },
     "post_application" = {
       filename      = "${local.path}/lambda/applications/lambda_post_application.zip"
@@ -53,27 +63,37 @@ locals {
       description   = "Post application lambda"
       runtime       = "python3.9"
       method        = "POST"
-      path          = "/applications"
-      part_path     = "applications"
+      path          = "/applications_adopter"
+      part_path     = "applications_adopter"
     }
-    "post_ong" = {
-      filename      = "${local.path}/lambda/ongs/lambda_post_ong.zip"
-      function_name = "post_ong"
-      handler       = "lambda_post_ong.main"
-      description   = "Post ong lambda"
-      runtime       = "python3.9"
-      method        = "POST"
-      path          = "/ongs"
-      part_path     = "ongs"
-    }
-    "get_ong" = {
-      filename      = "${local.path}/lambda/ongs/lambda_get_ong.zip"
-      function_name = "get_ong"
-      handler       = "lambda_get_ong.main"
-      description   = "Get ong lambda"
+    "get_user" = {
+      filename      = "${local.path}/lambda/ongs/lambda_get_user.zip"
+      function_name = "get_user"
+      handler       = "lambda_get_user.main"
+      description   = "Get user lambda"
       runtime       = "python3.9"
       method        = "GET"
-      path          = "/ongs/{neighborhood}/{ong_id}"
+      path          = "/user/"
+      part_path     = "ong"
+    }
+    "post_register_adopter" = {
+      filename      = "${local.path}/lambda/cognito/post_register_adopter.zip"
+      function_name = "register_adopter"
+      handler       = "lambda_handler_adopter.main"
+      description   = "Post adopter lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/postadopter"
+      part_path     = "adopter"
+    }
+    "post_register_ong" = {
+      filename      = "${local.path}/lambda/cognito/post_register_ong.zip"
+      function_name = "register_ong"
+      handler       = "lambda_handler_ong.main"
+      description   = "Post ong lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/postong"
       part_path     = "ong"
     }
   }
@@ -81,80 +101,81 @@ locals {
   # DynamoDB
   dynamodb = {
     tables = {
-      ong = {
-        name      = "ong"
-        hash_key  = "neighborhood"
-        range_key = "id"
+      users = {
+        name      = "users"
+        hash_key  = "Name"
+        range_key = "Email"
 
         attributes = [
           {
-            name = "neighborhood"
+            name = "Name"
             type = "S"
           },
           {
-            name = "id"
-            type = "N"
+            name = "Email"
+            type = "S"
           }
         ]
 
         global_secondary_indexes = []
 
         tags = {
-          Entity = "ONG"
+          Entity = "USERS"
         }
 
       }
 
       pets = {
         name      = "pets"
-        hash_key  = "ong_id"
-        range_key = "id"
+        hash_key  = "ong_username"
+        range_key = "pet_name"
 
 
         attributes = [
           {
-            name = "ong_id"
-            type = "N"
+            name = "ong_username"
+            type = "S"
           },
           {
-            name = "id"
-            type = "N"
+            name = "pet_name"
+            type = "S"
           }
-          , {
-            name = "type"
-            type = "N"
-          }
-          , {
-            name = "age"
-            type = "N"
-          }
-          , {
-            name = "situation"
-            type = "N"
-          }
+#          , {
+#            name = "type"
+#            type = "N"
+#          }
+#          , {
+#            name = "age"
+#            type = "N"
+#          }
+#          , {
+#            name = "situation"
+#            type = "N"
+#          }
         ]
 
-        global_secondary_indexes = [{
-          name            = "TypeIndex"
-          hash_key        = "type"
-          write_capacity  = 5
-          read_capacity   = 5
-          projection_type = "ALL"
-          },
-          {
-            name            = "AgeIndex"
-            hash_key        = "age"
-            write_capacity  = 5
-            read_capacity   = 5
-            projection_type = "ALL"
-          },
-          {
-            name            = "SituationIndex"
-            hash_key        = "situation"
-            write_capacity  = 5
-            read_capacity   = 5
-            projection_type = "ALL"
-          }
+        global_secondary_indexes = [
+#        {
+#          name            = "TypeIndex"
+#          hash_key        = "type"
+#          write_capacity  = 5
+#          read_capacity   = 5
+#          projection_type = "ALL"
+#          },
+#          {
+#            name            = "AgeIndex"
+#            hash_key        = "age"
+#            write_capacity  = 5
+#            read_capacity   = 5
+#            projection_type = "ALL"
+#          },
+#          {
+#            name            = "SituationIndex"
+#            hash_key        = "situation"
+#            write_capacity  = 5
+#            read_capacity   = 5
+#            projection_type = "ALL"
+#          }
         ]
 
         tags = {
@@ -164,39 +185,28 @@ locals {
 
       applications = {
         name = "applications",
-        hash_key  = "ong_id"
-        range_key = "id"
+        hash_key  = "ong_username"
+        range_key = "pet_name"
 
         attributes = [
           {
-            name = "ong_id"
-            type = "N"
+            name = "ong_username"
+            type = "S"
           },
           {
-            name = "pet_id"
-            type = "N"
+            name = "adopter_username"
+            type = "S"
           },
           {
-            name = "id"
-            type = "N"
-          },
-          {
-            name = "situation"
-            type = "N"
+            name = "pet_name"
+            type = "S"
           }
         ]
 
         global_secondary_indexes = [
           {
-            name            = "PetIndex"
-            hash_key        = "pet_id"
-            write_capacity  = 5
-            read_capacity   = 5
-            projection_type = "ALL"
-          },
-          {
-            name            = "SituationIndex"
-            hash_key        = "situation"
+            name            = "AdopterIndex"
+            hash_key        = "adopter_username"
             write_capacity  = 5
             read_capacity   = 5
             projection_type = "ALL"

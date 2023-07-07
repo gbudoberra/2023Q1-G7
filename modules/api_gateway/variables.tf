@@ -45,17 +45,12 @@ variable "get_pet_arn" {
   description = "ARN get pet lambda"
 }
 
-variable "get_ongs_arn" {
+variable "get_apps_ong_arn" {
   type        = string
-  description = "ARN get ongs lambda"
+  description = "ARN get apps lambda"
 }
 
-variable "post_ongs_arn" {
-  type        = string
-  description = "ARN post ongs lambda"
-}
-
-variable "get_apps_arn" {
+variable "get_apps_adopter_arn" {
   type        = string
   description = "ARN get apps lambda"
 }
@@ -63,4 +58,8 @@ variable "get_apps_arn" {
 variable "post_apps_arn" {
   type        = string
   description = "ARN post apps lambda"
+}
+variable "get_users_arn" {
+  type        = string
+  description = "ARN get user lambda"
 }

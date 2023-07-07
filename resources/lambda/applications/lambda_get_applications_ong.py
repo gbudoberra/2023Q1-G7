@@ -34,23 +34,23 @@ def main(event, context):
     # Retrieve
     if 'queryStringParameters' in event and event['queryStringParameters'] is not None:
         query_params = event['queryStringParameters']
-        ong_id = query_params.get('ong_id')
+        ong_username = query_params.get('ong_username')
     else:
         return error_response
 
     try:
         response = table.query(
             KeyConditionExpression=
-            Key('ong_id').eq(int(ong_id))
+            Key('ong_username').eq(ong_username)
         )
-        pets = response['Items']
+        applications = response['Items']
 
         response = {
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
             },
-            'body': json.dumps(pets, cls=DecimalEncoder)
+            'body': json.dumps(applications, cls=DecimalEncoder)
         }
     except Exception:
         return error_response

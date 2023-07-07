@@ -10,16 +10,16 @@ def main(event, context):
 
     # Extract pet details from the request body
     body = json.loads(event['body'])
-    ong_id = body['ong_id']
-    pet_id = body['pet_id']
-    application_id = body['id']
+    adopter_username = body['adopter_username']
+    ong_username = body['ong_username']
+    pet_id = body['pet_name']
     application_situation = 0
 
     # Create the pet item in DynamoDB
     application_item = {
-        'ong_id': ong_id,
-        'pet_id': pet_id,
-        'id': application_id,
+        'adopter_username': adopter_username,
+        'ong_username': ong_username,
+        'pet_name': pet_id,
         'situation': application_situation
     }
     table.put_item(Item=application_item)

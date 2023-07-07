@@ -4,13 +4,13 @@ import json
 
 def main(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table_name = 'ong'
+    table_name = 'users'
     table = dynamodb.Table(table_name)
 
     # Extract pet details from the request body
     body = json.loads(event['body'])
-    neighborhood = body['neighborhood']
-    id = body['id']
+    neighborhood = body['UserId']
+    Name = body['Name']
     name = body['name']
     email = body['email']
     phone = body['phone']

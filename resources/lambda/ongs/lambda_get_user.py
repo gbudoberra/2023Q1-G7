@@ -16,17 +16,15 @@ class DecimalEncoder(json.JSONEncoder):
 
 def main(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table_name = 'ong'
+    table_name = 'users'
     table = dynamodb.Table(table_name)
 
     query_parameters = event['queryStringParameters']
-    neighborhood = query_parameters['neighborhood']
-    ong_id = query_parameters['id']
+    email = query_parameters['email']
+    name = query_parameters['name']
 
-    ong_id = int(ong_id)
-    response = table.get_item(Key={'id': ong_id, 'neighborhood': neighborhood})
+    response = table.get_item(Key={'Name': name, 'Email': email})
     ong = response.get('Item')
-
     if ong:
         response = {
             'statusCode': 200,

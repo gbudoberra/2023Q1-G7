@@ -15,8 +15,9 @@ resource "aws_api_gateway_deployment" "this" {
   }
 
   depends_on = [aws_api_gateway_method.get_pets,
-  aws_api_gateway_method.post_pets, aws_api_gateway_method.get_pet, aws_api_gateway_method.get_ongs,
-  aws_api_gateway_method.post_ongs, aws_api_gateway_method.get_applications, aws_api_gateway_method.post_applications]
+  aws_api_gateway_method.post_pets, aws_api_gateway_method.get_pet, aws_api_gateway_method.get_users,
+  aws_api_gateway_method.get_applications_adopter, aws_api_gateway_method.get_applications_ong, aws_api_gateway_method.post_applications,
+  aws_api_gateway_method.post_applications]
 }
 
 resource "aws_api_gateway_stage" "production" {
@@ -120,91 +121,116 @@ resource "aws_api_gateway_integration" "get_pet" {
 
 ### ONGS ###
 
-resource "aws_api_gateway_resource" "ongs" {
+resource "aws_api_gateway_resource" "users" {
   rest_api_id = aws_api_gateway_rest_api.this.id
   parent_id   = aws_api_gateway_rest_api.this.root_resource_id
-  path_part   = "ongs"
+  path_part   = "users"
 }
 
 ### GET
 
-resource "aws_api_gateway_method" "get_ongs" {
+resource "aws_api_gateway_method" "get_users" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.ongs.id
+  resource_id   = aws_api_gateway_resource.users.id
   http_method   = "GET"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.api_cognito.id
 }
 
-resource "aws_api_gateway_integration" "get_ongs" {
+resource "aws_api_gateway_integration" "get_users" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
-  resource_id             = aws_api_gateway_resource.ongs.id
-  http_method             = aws_api_gateway_method.get_ongs.http_method
+  resource_id             = aws_api_gateway_resource.users.id
+  http_method             = aws_api_gateway_method.get_users.http_method
   request_parameters = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
   type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
-  uri                     = var.get_ongs_arn
+  uri                     = var.get_users_arn
 }
 
 ### POST
 
-resource "aws_api_gateway_method" "post_ongs" {
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.ongs.id
-  http_method   = "POST"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
-}
+#resource "aws_api_gateway_method" "post_ongs" {
+#  rest_api_id   = aws_api_gateway_rest_api.this.id
+#  resource_id   = aws_api_gateway_resource.ongs.id
+#  http_method   = "POST"
+#  authorization = "COGNITO_USER_POOLS"
+#  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+#}
+#
+#resource "aws_api_gateway_integration" "post_ongs" {
+#  rest_api_id             = aws_api_gateway_rest_api.this.id
+#  resource_id             = aws_api_gateway_resource.ongs.id
+#  http_method             = aws_api_gateway_method.post_ongs.http_method
+#  request_parameters = {}
+#  request_templates       = {}
+#  content_handling        = "CONVERT_TO_TEXT"
+#  integration_http_method = "POST"
+#  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
+#  uri                     = var.post_ongs_arn
+#}
 
-resource "aws_api_gateway_integration" "post_ongs" {
-  rest_api_id             = aws_api_gateway_rest_api.this.id
-  resource_id             = aws_api_gateway_resource.ongs.id
-  http_method             = aws_api_gateway_method.post_ongs.http_method
-  request_parameters = {}
-  request_templates       = {}
-  content_handling        = "CONVERT_TO_TEXT"
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
-  uri                     = var.post_ongs_arn
-}
 
 ### APPLICATIONS ###
 
-resource "aws_api_gateway_resource" "applications" {
+resource "aws_api_gateway_resource" "applications_ong" {
   rest_api_id = aws_api_gateway_rest_api.this.id
   parent_id   = aws_api_gateway_rest_api.this.root_resource_id
-  path_part   = "applications"
+  path_part   = "applications_ong"
+}
+
+resource "aws_api_gateway_resource" "applications_adopter" {
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  parent_id   = aws_api_gateway_rest_api.this.root_resource_id
+  path_part   = "applications_adopter"
 }
 
 ### GET
 
-resource "aws_api_gateway_method" "get_applications" {
+resource "aws_api_gateway_method" "get_applications_ong" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.applications.id
+  resource_id   = aws_api_gateway_resource.applications_ong.id
+  http_method   = "GET"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+}
+resource "aws_api_gateway_method" "get_applications_adopter" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  resource_id   = aws_api_gateway_resource.applications_adopter.id
   http_method   = "GET"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.api_cognito.id
 }
 
-resource "aws_api_gateway_integration" "get_applications" {
+resource "aws_api_gateway_integration" "get_applications_ong" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
-  resource_id             = aws_api_gateway_resource.applications.id
-  http_method             = aws_api_gateway_method.get_applications.http_method
+  resource_id             = aws_api_gateway_resource.applications_ong.id
+  http_method             = aws_api_gateway_method.get_applications_ong.http_method
   request_parameters = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
   type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
-  uri                     = var.get_apps_arn
+  uri                     = var.get_apps_ong_arn
+}
+resource "aws_api_gateway_integration" "get_applications_adopter" {
+  rest_api_id             = aws_api_gateway_rest_api.this.id
+  resource_id             = aws_api_gateway_resource.applications_adopter.id
+  http_method             = aws_api_gateway_method.get_applications_adopter.http_method
+  request_parameters = {}
+  request_templates       = {}
+  content_handling        = "CONVERT_TO_TEXT"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
+  uri                     = var.get_apps_adopter_arn
 }
 
 ### POST
 
 resource "aws_api_gateway_method" "post_applications" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.applications.id
+  resource_id   = aws_api_gateway_resource.applications_adopter.id
   http_method   = "POST"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.api_cognito.id
@@ -212,7 +238,7 @@ resource "aws_api_gateway_method" "post_applications" {
 
 resource "aws_api_gateway_integration" "post_applications" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
-  resource_id             = aws_api_gateway_resource.applications.id
+  resource_id             = aws_api_gateway_resource.applications_adopter.id
   http_method             = aws_api_gateway_method.post_applications.http_method
   request_parameters = {}
   request_templates       = {}

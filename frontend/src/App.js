@@ -1,13 +1,18 @@
 import './App.css';
-import GridExample from "./Components/GridView";
+import Pets from "./Components/Pets";
 import {Container} from "react-bootstrap";
-import Login from "./Components/Login";
 import MyContext from "./MyContext";
-import {useState} from "react";
+import React, {useState} from "react";
+import Navbar from "./Components/Navbar"
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Ongs from "./Components/Ongs";
+import Applications from "./Components/Applications";
 
 function App() {
 
     let [authenticated, setAuthenticated] = useState(false)
+    let [section, setSection] = useState('pets')
 
     const context = {
         cdn: {
@@ -20,12 +25,21 @@ function App() {
         }
     }
 
-    return (<MyContext.Provider value={context}>
-            <Container className="p-3">
-                <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-                {authenticated ? <GridExample/> : <h1>Iniciar sesión</h1>}
-            </Container>
-        </MyContext.Provider>);
+    return (
+        <MyContext.Provider value={context} >
+            <Navbar setSection={setSection} setAuthenticated={setAuthenticated} authenticated={authenticated}/>
+            <div className="container-fluid" style={{ backgroundColor: '#F5EFE7', height: '100%' }}>
+                <div className="row">
+                    <div className="col">
+                        {section === 'pets' && <Pets auth={authenticated}/>}
+                        {section === 'ONGs' && <Ongs/>}
+                        {section === 'applications' && <Applications/>}
+                    </div>
+                </div>
+            </div>
+        </MyContext.Provider>
+
+    );
 }
 
 export default App;

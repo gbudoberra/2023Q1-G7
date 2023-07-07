@@ -20,12 +20,12 @@ def main(event, context):
     table = dynamodb.Table(table_name)
 
     query_parameters = event['queryStringParameters']
-    ong_id = query_parameters['ongid']
-    pet_id = query_parameters['id']
+    ong_username = query_parameters['ong_username']
+    pet_name = query_parameters['name']
 
     # Retrieve all pets from the DynamoDB table
-    ong_id = int(ong_id)
-    response = table.get_item(Key={'ong_id': ong_id, 'id': int(pet_id)})
+    # ong_id = int(ong_id)
+    response = table.get_item(Key={'ong_username': ong_username, 'name': pet_name})
     pet = response.get('Item')
 
     # Prepare the response

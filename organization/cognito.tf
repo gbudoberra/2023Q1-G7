@@ -1,6 +1,10 @@
 resource "aws_cognito_user_pool" "this" {
   name = "user-pool"
 
+  lambda_config {
+    post_confirmation = module.lambda["post_register_ong"].arn
+  }
+
   alias_attributes = [
     "email",
   "preferred_username", ]
@@ -80,3 +84,9 @@ resource "aws_cognito_user_pool_domain" "this" {
   domain       = "adoptemos-todos"
   user_pool_id = aws_cognito_user_pool.this.id
 }
+
+#resource "aws_cognito_user_pool_trigger" "post_confirmation_trigger" {
+#  user_pool_id = aws_cognito_user_pool.this.id
+#  lambda_arn   = module.lambda["post_register_ong"].invoke_arn
+#  trigger_name = "PostConfirmation"
+#}

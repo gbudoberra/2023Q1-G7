@@ -1,18 +1,26 @@
 import {Button, Container} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import qs from "qs";
 import MyContext from "../MyContext";
 
 function Login({authenticated, setAuthenticated}) {
 
-    let [code, setCode] = useState('')
+    // let [code, setCode] = useState('')
 
     const context = useContext(MyContext);
 
-    const login = () => {
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        if(code){
+            login(code)
+        }else setAuthenticated(false)
+    }, [])
+
+    const login = (code) => {
 
         const endpoint = context.cognito.auth_url;
 
@@ -47,26 +55,16 @@ function Login({authenticated, setAuthenticated}) {
         setAuthenticated(false)
     }
 
-    const handleChange = (event) => {
-        setCode(event.target.value);
-    };
+    // const handleChange = (event) => {
+    //     setCode(event.target.value);
+    // };
     const hostedUI = () => {
         window.location.href = context.cognito.hosted_ui;
     };
 
-    return (<Container>
-        {authenticated ? <Button onClick={logout}>Cerrar sesión</Button> : <Row className='p-3'>
-            <Col className='col-3'>
-                <input type="text" placeholder='Código' value={code} onChange={handleChange}/>
-            </Col>
-            <Col className='text-center col-1'>
-                <Button onClick={hostedUI}>Obtener código</Button>
-            </Col>
-            <Col className='col-1 text-center'>
-                <Button onClick={login}>Iniciar sesión</Button>
-            </Col>
-        </Row>}
-    </Container>)
+    return (<div>
+        {authenticated ? <button onClick={logout}>Cerrar sesión</button> : <button onClick={hostedUI}>Iniciar sesión</button>}
+    </div>)
 
 }
 

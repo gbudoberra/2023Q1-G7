@@ -9,10 +9,12 @@ module "apigw" {
   get_pets_arn = module.lambda["get_pets"].invoke_arn
   post_pets_arn = module.lambda["post_pet"].invoke_arn
   get_pet_arn = module.lambda["get_pet"].invoke_arn
-  get_ongs_arn = module.lambda["get_ong"].invoke_arn
-  post_ongs_arn = module.lambda["post_ong"].invoke_arn
-  get_apps_arn = module.lambda["get_applications"].invoke_arn
+  get_users_arn = module.lambda["get_user"].invoke_arn
+  get_apps_ong_arn = module.lambda["get_applications_ong"].invoke_arn
+  get_apps_adopter_arn = module.lambda["get_applications_adopter"].invoke_arn
   post_apps_arn = module.lambda["post_application"].invoke_arn
+#  post_register_ong_arn = module.lambda["post_register_ong"].invoke_arn
+#  post_register_adopter_arn = module.lambda["post_register_adopter"].invoke_arn
 
 
 }
