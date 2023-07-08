@@ -13,6 +13,8 @@ module "apigw" {
   post_ongs_arn = module.lambda["post_ong"].invoke_arn
   get_apps_arn = module.lambda["get_applications"].invoke_arn
   post_apps_arn = module.lambda["post_application"].invoke_arn
+  get_image_arn = module.lambda["get_image"].invoke_arn
+  post_image_arn = module.lambda["post_image"].invoke_arn
 
 
 }

@@ -2,7 +2,7 @@ module "site_bucket" {
 
   source = "../modules/website_bucket"
 
-  bucket_prefix = local.buckets.site_bucket.prefix
+  bucket_name = local.buckets.site_bucket.name
 
   policy        = data.aws_iam_policy_document.site.json
 

@@ -2,7 +2,7 @@ module "site_bucket" {
 
   source = "terraform-aws-modules/s3-bucket/aws"
 
-  bucket_prefix = var.bucket_prefix
+  bucket = var.bucket_name
 
   versioning = {
     enabled = true

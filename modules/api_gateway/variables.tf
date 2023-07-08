@@ -64,3 +64,13 @@ variable "post_apps_arn" {
   type        = string
   description = "ARN post apps lambda"
 }
+
+variable "get_image_arn" {
+  type        = string
+  description = "ARN get image lambda"
+}
+
+variable "post_image_arn" {
+  type        = string
+  description = "ARN post image lambda"
+}
