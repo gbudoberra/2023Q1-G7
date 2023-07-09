@@ -1,32 +1,31 @@
-import {Button, Container} from "react-bootstrap";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import axios from "axios";
 import qs from "qs";
 import MyContext from "../MyContext";
+import {getRole} from "../jwt";
 
-function Login({authenticated, setAuthenticated}) {
-
-    // let [code, setCode] = useState('')
+function AdopterLogin({authenticated, setAuthenticated}) {
 
     const context = useContext(MyContext);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
-        if(code){
-            login(code)
-        }else setAuthenticated(false)
+        if (!context.auth.authenticated) {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            console.log('code ' + code)
+            if (code) {
+                AdopterLogin(code)
+            } else setAuthenticated(false)
+        }
     }, [])
 
-    const login = (code) => {
+    const AdopterLogin = (code) => {
 
-        const endpoint = context.cognito.auth_url;
+        const endpoint = context.cognito.adopter.auth_url;
 
         const data = qs.stringify({
             grant_type: 'authorization_code',
-            client_id: context.cognito.client_id,
+            client_id: context.cognito.adopter.client_id,
             redirect_uri: context.cdn.url,
             code: code,
         });
@@ -40,7 +39,9 @@ function Login({authenticated, setAuthenticated}) {
         axios.post(endpoint, data, config)
             .then((response) => {
                 console.log(response.data);
+                context.auth.setRole(getRole(response.data.id_token, context))
                 axios.defaults.headers.common['Authorization'] = response.data.id_token;
+                console.log('AUTH ROLE: ' + context.auth.role)
                 setAuthenticated(true)
             })
             .catch((error) => {
@@ -59,13 +60,14 @@ function Login({authenticated, setAuthenticated}) {
     //     setCode(event.target.value);
     // };
     const hostedUI = () => {
-        window.location.href = context.cognito.hosted_ui;
+        window.location.href = context.cognito.adopter.hosted_ui;
     };
 
     return (<div>
-        {authenticated ? <button onClick={logout}>Cerrar sesión</button> : <button onClick={hostedUI}>Iniciar sesión</button>}
+        {authenticated ? <button onClick={logout}>Cerrar sesión</button> :
+            <button onClick={hostedUI}>Iniciar sesión como adoptante</button>}
     </div>)
 
 }
 
-export default Login;
+export default AdopterLogin;

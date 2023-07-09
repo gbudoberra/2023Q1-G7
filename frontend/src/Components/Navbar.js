@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
-import Login from "./Login";
+import AdopterLogin from "./AdopterLogin";
+import OngLogin from "./OngLogin";
 
 function Navbar({setSection, setAuthenticated, authenticated}) {
     return (
@@ -20,14 +21,19 @@ function Navbar({setSection, setAuthenticated, authenticated}) {
                             <button onClick={() => setSection('ONGs')}>ONGs</button>
                         </li>
                     </div>
-                    <div className={'col'}>
+                    { authenticated && <div className={'col'}>
                         <li>
                             <button onClick={() => setSection('applications')}>Solicitudes</button>
                         </li>
-                    </div>
+                    </div> }
                     <div className={'col space-between'}>
                         <li>
-                            <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                            <AdopterLogin authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+                        </li>
+                    </div>
+                              <div className={'col space-between'}>
+                        <li>
+                            <OngLogin authenticated={authenticated} setAuthenticated={setAuthenticated}/>
                         </li>
                     </div>
                 </div>

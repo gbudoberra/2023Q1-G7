@@ -10,18 +10,18 @@ function Pets({auth}) {
     const context = useContext(MyContext);
     let [pets, setPets] = useState([{"situation": 1, "id": 1, "name": "Tarzan", "ong_id": 1, "type": 1, "age": 1},{"situation": 1, "id": 1, "name": "Tarzan", "ong_id": 1, "type": 1, "age": 1},{"situation": 1, "id": 1, "name": "Tarzan", "ong_id": 1, "type": 1, "age": 1},{"situation": 1, "id": 1, "name": "Tarzan", "ong_id": 1, "type": 1, "age": 1},{"situation": 1, "id": 1, "name": "Tarzan", "ong_id": 1, "type": 1, "age": 1}])
 
-    // useEffect(() => {
-    //     axios.get(context.cdn.api_gw + 'pets')
-    //         .then(response => {
-    //             const list = response.data;
-    //             console.log(list);
-    //             setPets(list)
-    //             console.log(pets)
-    //         })
-    //         .catch(error => {
-    //             console.error('Error al hacer la solicitud GET:', error);
-    //         });
-    // }, [auth])
+    useEffect(() => {
+        axios.get(context.cdn.api_gw + 'pets')
+            .then(response => {
+                const list = response.data
+                console.log(list)
+                setPets(list)
+                console.log(pets)
+            })
+            .catch(error => {
+                console.error('Error al hacer la solicitud GET:', error);
+            });
+    }, [auth])
 
     return (<Row xs={1} md={2} className="g-4 m-2">
             {pets.map((pet) => (<Col key={pet.id} className={'m-1'}>
