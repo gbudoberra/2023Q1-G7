@@ -40,9 +40,10 @@ def main(event, context):
 
     try:
         response = table.query(
-            KeyConditionExpression=
-            Key('adopter_username').eq(adopter_username)
+            IndexName='AdopterIndex',
+            KeyConditionExpression=Key('adopter_username').eq(adopter_username)
         )
+
         applications = response['Items']
 
         response = {
@@ -52,7 +53,6 @@ def main(event, context):
             },
             'body': json.dumps(applications, cls=DecimalEncoder)
         }
+        return response
     except Exception:
         return error_response
-
-    return response

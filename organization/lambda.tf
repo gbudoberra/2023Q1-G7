@@ -35,19 +35,11 @@ resource "aws_security_group_rule" "out" {
   security_group_id = aws_security_group.lambda_security_group.id
 }
 
-resource "aws_lambda_permission" "allow_execution_from_user_pool_ong" {
-  statement_id = "AllowExecutionFromUserPool"
-  action = "lambda:InvokeFunction"
-  function_name = module.lambda["post_register_ong"].function_name
-  principal = "cognito-idp.amazonaws.com"
-  source_arn = aws_cognito_user_pool.this.arn
-}
-
 resource "aws_lambda_permission" "allow_execution_from_user_pool_adopter" {
+  count = length(local.cognito.user_pools)
   statement_id = "AllowExecutionFromUserPool"
   action = "lambda:InvokeFunction"
-  function_name = module.lambda["post_register_adopter"].function_name
+  function_name = local.cognito.user_pools[count.index].lambda_name
   principal = "cognito-idp.amazonaws.com"
-  # TODO Set adopters' user pool
-  source_arn = aws_cognito_user_pool.this.arn
+  source_arn = aws_cognito_user_pool.this[count.index].arn
 }

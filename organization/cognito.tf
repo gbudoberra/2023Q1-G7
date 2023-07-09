@@ -1,8 +1,9 @@
 resource "aws_cognito_user_pool" "this" {
-  name = "user-pool"
+  count = length(local.cognito.user_pools)
+  name = local.cognito.user_pools[count.index].name
 
   lambda_config {
-    post_confirmation = module.lambda["post_register_ong"].arn
+    post_confirmation = local.cognito.user_pools[count.index].post_confirmation
   }
 
   alias_attributes = [
@@ -55,8 +56,9 @@ resource "aws_cognito_user_pool" "this" {
 }
 
 resource "aws_cognito_user_pool_client" "this" {
-  name         = "user-pool-client"
-  user_pool_id = aws_cognito_user_pool.this.id
+  count = length(local.cognito.user_pools)
+  name         = local.cognito.user_pools[count.index].client_name
+  user_pool_id = aws_cognito_user_pool.this[count.index].id
 
   callback_urls = ["https://${module.cdn.cdn_domain_name}/"]
 
@@ -81,12 +83,7 @@ resource "aws_cognito_user_pool_client" "this" {
 }
 
 resource "aws_cognito_user_pool_domain" "this" {
-  domain       = "adoptemos-todos"
-  user_pool_id = aws_cognito_user_pool.this.id
+  count = length(local.cognito.user_pools)
+  domain       = local.cognito.user_pools[count.index].name
+  user_pool_id = aws_cognito_user_pool.this[count.index].id
 }
-
-#resource "aws_cognito_user_pool_trigger" "post_confirmation_trigger" {
-#  user_pool_id = aws_cognito_user_pool.this.id
-#  lambda_arn   = module.lambda["post_register_ong"].invoke_arn
-#  trigger_name = "PostConfirmation"
-#}

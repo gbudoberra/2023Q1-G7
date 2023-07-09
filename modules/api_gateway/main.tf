@@ -27,13 +27,23 @@ resource "aws_api_gateway_stage" "production" {
 }
 
 
-resource "aws_api_gateway_authorizer" "api_cognito" {
-  name        = "api_cognito"
+resource "aws_api_gateway_authorizer" "api_cognito_ong" {
+  name        = "api_cognito_ong"
   rest_api_id = aws_api_gateway_rest_api.this.id
   type        = "COGNITO_USER_POOLS"
 
   provider_arns = [
-    var.cognito_user_pool_arn
+    var.cognito_user_pool_arn_ong
+  ]
+}
+
+resource "aws_api_gateway_authorizer" "api_cognito_adopter" {
+  name        = "api_cognito_adopter"
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  type        = "COGNITO_USER_POOLS"
+
+  provider_arns = [
+    var.cognito_user_pool_arn_adopter
   ]
 }
 
@@ -51,8 +61,7 @@ resource "aws_api_gateway_method" "get_pets" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = aws_api_gateway_resource.pets.id
   http_method   = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "get_pets" {
@@ -74,7 +83,7 @@ resource "aws_api_gateway_method" "post_pets" {
   resource_id   = aws_api_gateway_resource.pets.id
   http_method   = "POST"
   authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorizer_id = aws_api_gateway_authorizer.api_cognito_ong.id
 }
 
 resource "aws_api_gateway_integration" "post_pets" {
@@ -103,8 +112,7 @@ resource "aws_api_gateway_method" "get_pet" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = aws_api_gateway_resource.pet.id
   http_method   = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "get_pet" {
@@ -133,8 +141,7 @@ resource "aws_api_gateway_method" "get_users" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = aws_api_gateway_resource.users.id
   http_method   = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "get_users" {
@@ -148,28 +155,6 @@ resource "aws_api_gateway_integration" "get_users" {
   type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
   uri                     = var.get_users_arn
 }
-
-### POST
-
-#resource "aws_api_gateway_method" "post_ongs" {
-#  rest_api_id   = aws_api_gateway_rest_api.this.id
-#  resource_id   = aws_api_gateway_resource.ongs.id
-#  http_method   = "POST"
-#  authorization = "COGNITO_USER_POOLS"
-#  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
-#}
-#
-#resource "aws_api_gateway_integration" "post_ongs" {
-#  rest_api_id             = aws_api_gateway_rest_api.this.id
-#  resource_id             = aws_api_gateway_resource.ongs.id
-#  http_method             = aws_api_gateway_method.post_ongs.http_method
-#  request_parameters = {}
-#  request_templates       = {}
-#  content_handling        = "CONVERT_TO_TEXT"
-#  integration_http_method = "POST"
-#  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
-#  uri                     = var.post_ongs_arn
-#}
 
 
 ### APPLICATIONS ###
@@ -193,14 +178,14 @@ resource "aws_api_gateway_method" "get_applications_ong" {
   resource_id   = aws_api_gateway_resource.applications_ong.id
   http_method   = "GET"
   authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorizer_id = aws_api_gateway_authorizer.api_cognito_ong.id
 }
 resource "aws_api_gateway_method" "get_applications_adopter" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = aws_api_gateway_resource.applications_adopter.id
   http_method   = "GET"
   authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorizer_id = aws_api_gateway_authorizer.api_cognito_adopter.id
 }
 
 resource "aws_api_gateway_integration" "get_applications_ong" {
@@ -233,7 +218,7 @@ resource "aws_api_gateway_method" "post_applications" {
   resource_id   = aws_api_gateway_resource.applications_adopter.id
   http_method   = "POST"
   authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+  authorizer_id = aws_api_gateway_authorizer.api_cognito_adopter.id
 }
 
 resource "aws_api_gateway_integration" "post_applications" {

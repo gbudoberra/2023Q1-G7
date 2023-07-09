@@ -5,7 +5,8 @@ module "apigw" {
   description     = local.apigw.description
   aws_region_name = data.aws_region.current.name
   account_id      = data.aws_caller_identity.current.account_id
-  cognito_user_pool_arn = aws_cognito_user_pool.this.arn
+  cognito_user_pool_arn_ong= aws_cognito_user_pool.this[0].arn
+  cognito_user_pool_arn_adopter = aws_cognito_user_pool.this[1].arn
   get_pets_arn = module.lambda["get_pets"].invoke_arn
   post_pets_arn = module.lambda["post_pet"].invoke_arn
   get_pet_arn = module.lambda["get_pet"].invoke_arn

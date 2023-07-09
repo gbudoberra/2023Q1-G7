@@ -25,11 +25,6 @@ variable "stage_name" {
   default = "prod_stage"
 }
 
-variable "cognito_user_pool_arn" {
-  type        = string
-  description = "ARN Cognito"
-}
-
 variable "get_pets_arn" {
   type        = string
   description = "ARN get pets lambda"
@@ -62,4 +57,12 @@ variable "post_apps_arn" {
 variable "get_users_arn" {
   type        = string
   description = "ARN get user lambda"
+}
+variable "cognito_user_pool_arn_ong" {
+  type        = string
+  description = "cognito ong"
+}
+variable "cognito_user_pool_arn_adopter" {
+  type        = string
+  description = "cognito adopter"
 }

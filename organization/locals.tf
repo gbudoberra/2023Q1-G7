@@ -39,7 +39,7 @@ locals {
     "get_applications_ong" = {
       filename      = "${local.path}/lambda/applications/lambda_get_applications_ong.zip"
       function_name = "get_applications_ong"
-      handler       = "get_applications_ong.main"
+      handler       = "lambda_get_applications_ong.main"
       description   = "Get applications from ong lambda"
       runtime       = "python3.9"
       method        = "GET"
@@ -49,7 +49,7 @@ locals {
     "get_applications_adopter" = {
       filename      = "${local.path}/lambda/applications/lambda_get_applications_adopter.zip"
       function_name = "get_applications_adopter"
-      handler       = "get_applications_adopter.main"
+      handler       = "lambda_get_applications_adopter.main"
       description   = "Get applications from adopter lambda"
       runtime       = "python3.9"
       method        = "GET"
@@ -78,7 +78,7 @@ locals {
     }
     "post_register_adopter" = {
       filename      = "${local.path}/lambda/cognito/post_register_adopter.zip"
-      function_name = "register_adopter"
+      function_name = "post_register_adopter"
       handler       = "post_register_adopter.lambda_handler_adopter"
       description   = "Post adopter lambda"
       runtime       = "python3.9"
@@ -88,7 +88,7 @@ locals {
     }
     "post_register_ong" = {
       filename      = "${local.path}/lambda/cognito/post_register_ong.zip"
-      function_name = "register_ong"
+      function_name = "post_register_ong"
       handler       = "post_register_ong.lambda_handler_ong"
       description   = "Post ong lambda"
       runtime       = "python3.9"
@@ -97,6 +97,23 @@ locals {
       part_path     = "ong"
     }
   }
+
+  cognito = {
+    user_pools = [{
+        name = "ongs-user-pool",
+        post_confirmation = module.lambda["post_register_ong"].arn,
+        lambda_name = "post_register_ong",
+        client_name = "ongs-client"
+      },
+      {
+        name = "adopters-user-pool",
+        post_confirmation = module.lambda["post_register_adopter"].arn,
+        lambda_name = "post_register_adopter",
+        client_name = "adopters-client"
+      }]
+
+  }
+
 
   # DynamoDB
   dynamodb = {
