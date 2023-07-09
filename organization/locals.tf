@@ -79,7 +79,7 @@ locals {
     "post_register_adopter" = {
       filename      = "${local.path}/lambda/cognito/post_register_adopter.zip"
       function_name = "register_adopter"
-      handler       = "lambda_handler_adopter.main"
+      handler       = "post_register_adopter.lambda_handler_adopter"
       description   = "Post adopter lambda"
       runtime       = "python3.9"
       method        = "GET"
@@ -89,7 +89,7 @@ locals {
     "post_register_ong" = {
       filename      = "${local.path}/lambda/cognito/post_register_ong.zip"
       function_name = "register_ong"
-      handler       = "lambda_handler_ong.main"
+      handler       = "post_register_ong.lambda_handler_ong"
       description   = "Post ong lambda"
       runtime       = "python3.9"
       method        = "GET"
