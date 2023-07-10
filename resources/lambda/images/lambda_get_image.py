@@ -1,13 +1,15 @@
 import boto3
-import json
 import base64
 
 
 def main(event, context):
     s3 = boto3.resource('s3')
 
-    bucket_name = 'images-adoptemos-todos-g7-cloud'  # TODO deshardcodear bucket name
-    key = 'a.JPG'
+    bucket_name = 'images-adoptemos-todos-g7-cloud'
+
+    query_parameters = event['queryStringParameters']
+    key = query_parameters['name']
+
     bucket = s3.Bucket(bucket_name)
     object = bucket.Object(key)
     response = object.get()
