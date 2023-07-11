@@ -5,7 +5,7 @@ module "logs_bucket" {
     enabled = true
   }
 
-  bucket_prefix = var.bucket_prefix
+  bucket = var.bucket_name
   acl           = "log-delivery-write"
 
   control_object_ownership = true

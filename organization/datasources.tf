@@ -17,3 +17,15 @@ data "aws_iam_policy_document" "site" {
     }
   }
 }
+
+data "aws_iam_policy_document" "images" {
+  statement {
+    actions   = ["s3:GetObject", "s3:PutObject"]
+    resources = ["${module.images_bucket.s3_bucket_arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"]
+    }
+  }
+}

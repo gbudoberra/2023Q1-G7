@@ -14,10 +14,10 @@ resource "aws_api_gateway_deployment" "this" {
     create_before_destroy = true
   }
 
-  depends_on = [aws_api_gateway_method.get_pets,
-  aws_api_gateway_method.post_pets, aws_api_gateway_method.get_pet, aws_api_gateway_method.get_users,
-  aws_api_gateway_method.get_applications_adopter, aws_api_gateway_method.get_applications_ong, aws_api_gateway_method.post_applications,
-  aws_api_gateway_method.post_applications]
+  depends_on = [aws_api_gateway_integration.get_pets,
+  aws_api_gateway_integration.post_pets, aws_api_gateway_integration.get_pet, aws_api_gateway_integration.get_users,
+  aws_api_gateway_integration.get_applications_adopter, aws_api_gateway_integration.get_applications_ong, aws_api_gateway_integration.post_applications,
+  aws_api_gateway_integration.post_applications]
 }
 
 resource "aws_api_gateway_stage" "production" {
@@ -231,4 +231,56 @@ resource "aws_api_gateway_integration" "post_applications" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
   uri                     = var.post_apps_arn
+}
+
+### IMAGEs ###
+
+resource "aws_api_gateway_resource" "image" {
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  parent_id   = aws_api_gateway_rest_api.this.root_resource_id
+  path_part   = "image"
+}
+
+### GET
+
+resource "aws_api_gateway_method" "get_image" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  resource_id   = aws_api_gateway_resource.image.id
+  http_method   = "GET"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+}
+
+resource "aws_api_gateway_integration" "get_image" {
+  rest_api_id             = aws_api_gateway_rest_api.this.id
+  resource_id             = aws_api_gateway_resource.image.id
+  http_method             = aws_api_gateway_method.get_image.http_method
+  request_parameters = {}
+  request_templates       = {}
+  content_handling        = "CONVERT_TO_TEXT"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
+  uri                     = var.get_image_arn
+}
+
+### POST
+
+resource "aws_api_gateway_method" "post_image" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  resource_id   = aws_api_gateway_resource.image.id
+  http_method   = "POST"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api_cognito.id
+}
+
+resource "aws_api_gateway_integration" "post_image" {
+  rest_api_id             = aws_api_gateway_rest_api.this.id
+  resource_id             = aws_api_gateway_resource.image.id
+  http_method             = aws_api_gateway_method.post_image.http_method
+  request_parameters = {}
+  request_templates       = {}
+  content_handling        = "CONVERT_TO_TEXT"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
+  uri                     = var.post_image_arn
 }

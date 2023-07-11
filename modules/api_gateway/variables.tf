@@ -66,3 +66,13 @@ variable "cognito_user_pool_arn_adopter" {
   type        = string
   description = "cognito adopter"
 }
+
+variable "get_image_arn" {
+  type        = string
+  description = "ARN get image lambda"
+}
+
+variable "post_image_arn" {
+  type        = string
+  description = "ARN post image lambda"
+}

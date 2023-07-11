@@ -1,6 +1,6 @@
-variable "bucket_prefix" {
+variable "bucket_name" {
   type        = string
-  description = "Bucket prefix"
+  description = "Bucket name"
 }
 
 variable "default_server_side_encryption" {

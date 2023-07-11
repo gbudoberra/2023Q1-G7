@@ -6,6 +6,26 @@ locals {
   # LAMBDAS
   path = "../resources"
   lambdas = {
+    "get_image" = {
+      filename      = "${local.path}/lambda/images/lambda_get_image.zip"
+      function_name = "get_image"
+      handler       = "lambda_get_image.main"
+      description   = "Get image lambda"
+      runtime       = "python3.9"
+      method        = "GET"
+      path          = "/image"
+      part_path     = "image"
+    },
+    "post_image" = {
+      filename      = "${local.path}/lambda/images/lambda_post_image.zip"
+      function_name = "post_image"
+      handler       = "lambda_post_image.main"
+      description   = "Post image lambda"
+      runtime       = "python3.9"
+      method        = "POST"
+      path          = "/image"
+      part_path     = "image"
+    },
     "get_pets" = {
       filename      = "${local.path}/lambda/pets/lambda_get_pets.zip"
       function_name = "get_pets"
@@ -247,10 +267,10 @@ locals {
   # Site bucket
   buckets = {
     site_bucket = {
-      prefix = "adoptemos-todos-site-s3-",
+      name = "site-adoptemos-todos-g7-cloud",
     }
     logs_bucket = {
-      prefixes = { site = "adoptemos-todos-logs-s3-", cdn = "cdn-logs-s3-" }
+      names = { site = "logs-site-adoptemos-todos-g7-cloud", cdn = "logs-cdn-adoptemos-todos-g7-cloud" }
     }
     default_server_side_encryption = {
       rule = {
