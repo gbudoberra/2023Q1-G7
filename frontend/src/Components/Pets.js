@@ -26,7 +26,7 @@ function Pets({auth}) {
     return (<Row xs={1} md={2} className="g-4 m-2">
             {pets.map((pet) => (<Col key={pet.id} className={'m-1'}>
                     <Card style={{ width: '300px' }}>
-                        <Card.Img  variant="top" src={require('/home/bsquillari/PycharmProjects/2023Q1-G7/frontend/src/Components/Untitled.jpeg')}/>
+                        <Card.Img  variant="top" src={require('./Untitled.jpeg')}/>
                         <Card.Body>
                             <Card.Title>{pet.name}</Card.Title>
                             {pet.situation === 0 ? <Card.Text>Disponible</Card.Text>:<Card.Text>Adoptado</Card.Text>}

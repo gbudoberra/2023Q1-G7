@@ -85,3 +85,4 @@ crash.log
 *.tfstate*
 
 
+/package-lock.json
