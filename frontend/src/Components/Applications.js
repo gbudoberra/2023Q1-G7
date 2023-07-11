@@ -3,6 +3,14 @@ import Col from 'react-bootstrap/Col';
 import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
+import Image from "./Image";
+
+// {
+//     "ong_username":"ong",
+//     "adopter_username":"adopter",
+//     "pet_name":"Pedro",
+//     "situation":0
+// }
 
 function Applications() {
 
@@ -46,7 +54,7 @@ function Applications() {
                 return (
                     <Col key={app.id}>
                         <Card style={{width: '300px'}}>
-                            <Card.Img variant="top" src={require('./Untitled.jpeg')}/>
+                            <Image petName={app.pet_name}/>
                             <Card.Body>
                                 <Card.Title>{app.pet_name}</Card.Title>
                                 {app.situation === 0 ? <Card.Text>En espera</Card.Text> :
