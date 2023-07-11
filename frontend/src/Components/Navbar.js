@@ -33,6 +33,14 @@ function Navbar({section, setSection, authenticated}) {
                             </button>
                         </li>
                     </Col>}
+                    {authenticated && authenticated.role === 'ONG' &&
+                        <Col className={'col'}>
+                            <li>
+                                <button onClick={() => setSection('publishPet')}
+                                    style={section === 'publishPet' ? {fontWeight: "bold"} : {}}>Publicar Mascota
+                                </button>
+                            </li>
+                        </Col>}
                     {authenticated && <Col className={'col'}>
                         <li>
                             <button onClick={() => {

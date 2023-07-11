@@ -19,8 +19,8 @@ def main(event, context):
     # Create the pet item in DynamoDB
     pet_item = {
         'ong_username': ong_username,
-        'type': pet_type,
-        'age': age,
+        'type': int(pet_type),
+        'age': int(age),
         'situation': 0,
         'pet_name': name
     }
@@ -29,7 +29,7 @@ def main(event, context):
     # Image
     s3 = boto3.client('s3')
 
-    bucket_name = 'images-adoptemos-todos-g7-cloud'
+    bucket_name = 'images-adoptemos-todos-g7-cloud-gaspar'
 
     image_data = body['image']
     key = name

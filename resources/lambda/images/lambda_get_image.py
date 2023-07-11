@@ -5,7 +5,7 @@ import base64
 def main(event, context):
     s3 = boto3.resource('s3')
 
-    bucket_name = 'images-adoptemos-todos-g7-cloud'
+    bucket_name = 'images-adoptemos-todos-g7-cloud-gaspar'
 
     query_parameters = event['queryStringParameters']
     key = query_parameters['name']
