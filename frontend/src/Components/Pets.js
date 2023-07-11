@@ -5,7 +5,7 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 import Image from "./Image";
-import {ApplicationsFunctions} from "../ApplicationsFunctions";
+import ConfirmPopup from "./ConfirmPopup";
 
 function Pets({}) {
 
@@ -34,15 +34,7 @@ function Pets({}) {
                     {pet.type === 0 ? <Card.Text>Perro</Card.Text> : <Card.Text>Gato</Card.Text>}
                     {pet.age === 0 ? <Card.Text>Joven</Card.Text> : <Card.Text>Veterano</Card.Text>}
                     {context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER' &&
-                        <button onClick={() => {
-                            ApplicationsFunctions.apply(context.cdn.api_gw, pet.pet_name, context.auth.authenticated.username, pet.ong_username)
-                                .then((r) => {
-                                    console.log('APPLY THEN', r)
-                                })
-                                .catch((r) => {
-                                    console.error('APPLY CATCH', r)
-                                })
-                        }}>Aplicar</button>
+                        <ConfirmPopup message={'Enviar solicitud'} pet={pet} context={context}/>
                     }
                 </Card.Body>
             </Card>
