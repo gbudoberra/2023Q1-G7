@@ -2,7 +2,7 @@ module "images_bucket" {
 
   source = "terraform-aws-modules/s3-bucket/aws"
 
-  bucket = "images-adoptemos-todos-g7-cloud"
+  bucket = "images-adoptemos-todos-g7-cloud-gaspar"
 
   versioning = {
     enabled = true

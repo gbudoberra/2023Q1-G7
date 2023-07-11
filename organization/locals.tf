@@ -116,21 +116,41 @@ locals {
       path          = "/postong"
       part_path     = "ong"
     }
+    "adopt_pet" = {
+      filename      = "${local.path}/lambda/applications/lambda_adopt_pet.zip"
+      function_name = "lambda_adopt_pet"
+      handler       = "lambda_adopt_pet.main"
+      description   = "Post ong lambda"
+      runtime       = "python3.9"
+      method        = "POST"
+      path          = "/adopt"
+      part_path     = "application"
+    }
+    "cancel_application" = {
+      filename      = "${local.path}/lambda/applications/lambda_cancel_application.zip"
+      function_name = "lambda_cancel_application"
+      handler       = "lambda_cancel_applications.main"
+      description   = "Post ong lambda"
+      runtime       = "python3.9"
+      method        = "POST"
+      path          = "/cancel"
+      part_path     = "application"
+    }
   }
 
   cognito = {
     user_pools = [{
-        name = "ongs-user-pool",
-        post_confirmation = module.lambda["post_register_ong"].arn,
-        lambda_name = "post_register_ong",
-        client_name = "ongs-client"
+      name              = "ongs-user-pool-gaspar",
+      post_confirmation = module.lambda["post_register_ong"].arn,
+      lambda_name       = "post_register_ong",
+      client_name       = "ongs-client"
       },
       {
-        name = "adopters-user-pool",
+        name              = "adopters-user-pool-gaspar",
         post_confirmation = module.lambda["post_register_adopter"].arn,
-        lambda_name = "post_register_adopter",
-        client_name = "adopters-client"
-      }]
+        lambda_name       = "post_register_adopter",
+        client_name       = "adopters-client"
+    }]
 
   }
 
@@ -177,42 +197,42 @@ locals {
             name = "pet_name"
             type = "S"
           }
-#          , {
-#            name = "type"
-#            type = "N"
-#          }
-#          , {
-#            name = "age"
-#            type = "N"
-#          }
-#          , {
-#            name = "situation"
-#            type = "N"
-#          }
+          #          , {
+          #            name = "type"
+          #            type = "N"
+          #          }
+          #          , {
+          #            name = "age"
+          #            type = "N"
+          #          }
+          #          , {
+          #            name = "situation"
+          #            type = "N"
+          #          }
         ]
 
         global_secondary_indexes = [
-#        {
-#          name            = "TypeIndex"
-#          hash_key        = "type"
-#          write_capacity  = 5
-#          read_capacity   = 5
-#          projection_type = "ALL"
-#          },
-#          {
-#            name            = "AgeIndex"
-#            hash_key        = "age"
-#            write_capacity  = 5
-#            read_capacity   = 5
-#            projection_type = "ALL"
-#          },
-#          {
-#            name            = "SituationIndex"
-#            hash_key        = "situation"
-#            write_capacity  = 5
-#            read_capacity   = 5
-#            projection_type = "ALL"
-#          }
+          #        {
+          #          name            = "TypeIndex"
+          #          hash_key        = "type"
+          #          write_capacity  = 5
+          #          read_capacity   = 5
+          #          projection_type = "ALL"
+          #          },
+          #          {
+          #            name            = "AgeIndex"
+          #            hash_key        = "age"
+          #            write_capacity  = 5
+          #            read_capacity   = 5
+          #            projection_type = "ALL"
+          #          },
+          #          {
+          #            name            = "SituationIndex"
+          #            hash_key        = "situation"
+          #            write_capacity  = 5
+          #            read_capacity   = 5
+          #            projection_type = "ALL"
+          #          }
         ]
 
         tags = {
@@ -221,21 +241,17 @@ locals {
       }
 
       applications = {
-        name = "applications",
-        hash_key  = "ong_username"
-        range_key = "pet_name"
+        name      = "applications",
+        hash_key  = "ong_username#pet"
+        range_key = "adopter_username"
 
         attributes = [
           {
-            name = "ong_username"
+            name = "ong_username#pet"
             type = "S"
           },
           {
             name = "adopter_username"
-            type = "S"
-          },
-          {
-            name = "pet_name"
             type = "S"
           }
         ]
@@ -267,10 +283,10 @@ locals {
   # Site bucket
   buckets = {
     site_bucket = {
-      name = "site-adoptemos-todos-g7-cloud",
+      name = "site-adoptemos-todos-g7-cloud-gaspar",
     }
     logs_bucket = {
-      names = { site = "logs-site-adoptemos-todos-g7-cloud", cdn = "logs-cdn-adoptemos-todos-g7-cloud" }
+      names = { site = "logs-site-adoptemos-todos-g7-cloud-gaspar", cdn = "logs-cdn-adoptemos-todos-g7-cloud-gaspar" }
     }
     default_server_side_encryption = {
       rule = {
