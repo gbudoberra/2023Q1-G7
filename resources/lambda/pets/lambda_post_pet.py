@@ -1,3 +1,5 @@
+import base64
+
 import boto3
 import json
 
@@ -23,6 +25,22 @@ def main(event, context):
         'pet_name': name
     }
     table.put_item(Item=pet_item)
+
+    # Image
+    s3 = boto3.client('s3')
+
+    bucket_name = 'images-adoptemos-todos-g7-cloud'
+
+    image_data = body['image']
+    key = name
+
+    decoded_image_data = base64.b64decode(image_data)
+
+    s3.put_object(
+        Bucket=bucket_name,
+        Key=key,
+        Body=decoded_image_data
+    )
 
     response = {
         'statusCode': 200,
