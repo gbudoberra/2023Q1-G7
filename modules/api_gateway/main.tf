@@ -16,8 +16,8 @@ resource "aws_api_gateway_deployment" "this" {
 
   depends_on = [aws_api_gateway_integration.get_pets,
   aws_api_gateway_integration.post_pets, aws_api_gateway_integration.get_pet, aws_api_gateway_integration.get_users,
-  aws_api_gateway_integration.get_applications_adopter, aws_api_gateway_integration.get_applications_ong, aws_api_gateway_integration.post_applications,
-  aws_api_gateway_integration.post_applications]
+  aws_api_gateway_integration.get_applications_adopter, aws_api_gateway_integration.get_applications_ong,
+  aws_api_gateway_integration.post_applications, aws_api_gateway_integration.get_image, aws_api_gateway_integration.post_image]
 }
 
 resource "aws_api_gateway_stage" "production" {
