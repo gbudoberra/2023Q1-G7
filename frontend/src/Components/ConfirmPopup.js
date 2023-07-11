@@ -1,11 +1,10 @@
 import React from "react";
-import {ApplicationsFunctions} from "../ApplicationsFunctions";
 
-function ConfirmPopup({message, context, pet}) {
+function ConfirmPopup({btnMessage, message, onClickAccept}) {
     return (<div>
         <button data-toggle="modal"
                 data-target="#exampleModalCenter">
-            Aplicar
+            {btnMessage}
         </button>
 
         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog"
@@ -17,17 +16,9 @@ function ConfirmPopup({message, context, pet}) {
                     </div>
                     <div className="modal-footer">
                         <button type="button" data-dismiss="modal"
-                        style={{
-                            background: 'darkgreen'
-                        }} onClick={() => {
-                            ApplicationsFunctions.apply(context.cdn.api_gw, pet.pet_name, context.auth.authenticated.username, pet.ong_username)
-                                .then((r) => {
-                                    console.log('APPLY THEN', r)
-                                })
-                                .catch((r) => {
-                                    console.error('APPLY CATCH', r)
-                                })
-                        }}
+                                style={{
+                                    background: 'darkgreen'
+                                }} onClick={onClickAccept}
                         >Confirmar
                         </button>
                         <button type="button" style={{

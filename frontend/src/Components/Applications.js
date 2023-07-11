@@ -4,6 +4,8 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 import Image from "./Image";
+import ConfirmPopup from "./ConfirmPopup";
+import {ApplicationsFunctions} from "../ApplicationsFunctions";
 
 // {
 //     "ong_username":"ong",
@@ -62,6 +64,17 @@ function Applications() {
                                 {(context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER') ?
                                     <Card.Text>ONG: {app.ong_username}</Card.Text> :
                                     <Card.Text>Solicitante: {app.adopter_username}</Card.Text>}
+                                {context.auth.authenticated && context.auth.authenticated.role === 'ONG' &&
+                                    <ConfirmPopup onClickAccept={() => {
+                                        ApplicationsFunctions.accept(context.cdn.api_gw, app.pet_name, app.adopter_username, context.auth.authenticated.username)
+                                            .then((r) => {
+                                                console.log('ACCEPT THEN', r)
+                                            })
+                                            .catch((r) => {
+                                                console.error('ACCEPT CATCH', r)
+                                            })
+                                    }} message={'Enviar solicitud'} btnMessage={'Aplicar'}/>
+                                }
                             </Card.Body>
                         </Card>
                     </Col>
