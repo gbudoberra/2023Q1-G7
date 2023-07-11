@@ -3,13 +3,11 @@ import Pets from "./Components/Pets";
 import MyContext from "./MyContext";
 import React, {useState} from "react";
 import Navbar from "./Components/Navbar"
-import Ongs from "./Components/Ongs";
 import Applications from "./Components/Applications";
 
 function App() {
 
-    let [authenticated, setAuthenticated] = useState(false)
-    let [role, setRole] = useState('')
+    let [authenticated, setAuthenticated] = useState(null)
     let [section, setSection] = useState('pets')
 
     const context = {
@@ -32,20 +30,18 @@ function App() {
         },
         auth: {
             authenticated: authenticated,
-            setAuthenticated: setAuthenticated,
-            role: role,
-            setRole: setRole
+            setAuthenticated: setAuthenticated
         }
     }
 
     return (
         <MyContext.Provider value={context}>
-            <Navbar setSection={setSection} setAuthenticated={setAuthenticated} authenticated={authenticated}/>
-            <div className="container-fluid" style={{backgroundColor: '#f5efe7', height: '100%'}}>
+            <Navbar section={section} setSection={setSection} setAuthenticated={setAuthenticated}
+                    authenticated={authenticated}/>
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col">
-                        {section === 'pets' && <Pets auth={authenticated}/>}
-                        {section === 'ONGs' && <Ongs/>}
+                        {section === 'pets' && <Pets/>}
                         {section === 'applications' && <Applications/>}
                     </div>
                 </div>

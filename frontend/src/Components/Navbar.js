@@ -1,42 +1,51 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import '../App.css';
-import AdopterLogin from "./AdopterLogin";
-import OngLogin from "./OngLogin";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Login from "./Login";
+import {LoginFunctions} from "../LoginFunctions";
+import MyContext from "../MyContext";
 
-function Navbar({setSection, setAuthenticated, authenticated}) {
+function Navbar({section, setSection, authenticated}) {
+
+    let [openModal, setOpenModal] = useState(false)
+
+    const context = useContext(MyContext)
+
+    function handleCloseModal() {
+        setOpenModal(false);
+    }
+
     return (
-        <nav className="navbar" style={{ backgroundColor: ' #213555 ' }}>
+        <nav className="navbar" style={{backgroundColor: ' #213555 '}}>
             <ul className="navbar-list">
-                <div className={'row'}>
-                    <div className={'col'}>
+                <Row>
+                    <Col className={'col'}>
+                        <button onClick={() => {
+                            setSection('pets')
+                        }} style={section === 'pets' ? {fontWeight: "bold"} : {}}>Mascotas
+                        </button>
+                    </Col>
+                    {authenticated && <Col className={'col'}>
+                        <li>
+                            <button onClick={() => setSection('applications')}
+                                    style={section === 'applications' ? {fontWeight: "bold"} : {}}>Solicitudes
+                            </button>
+                        </li>
+                    </Col>}
+                    {authenticated && <Col className={'col'}>
                         <li>
                             <button onClick={() => {
                                 setSection('pets')
-                            }} >Mascotas
+                                LoginFunctions.logout(context.auth)
+                            }}>Cerrar sesión
                             </button>
                         </li>
-                    </div>
-                    <div className={'col'}>
-                        <li>
-                            <button onClick={() => setSection('ONGs')}>ONGs</button>
-                        </li>
-                    </div>
-                    { authenticated && <div className={'col'}>
-                        <li>
-                            <button onClick={() => setSection('applications')}>Solicitudes</button>
-                        </li>
-                    </div> }
-                    <div className={'col space-between'}>
-                        <li>
-                            <AdopterLogin authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-                        </li>
-                    </div>
-                              <div className={'col space-between'}>
-                        <li>
-                            <OngLogin authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-                        </li>
-                    </div>
-                </div>
+                    </Col>}
+                    {!authenticated && <Col className={'col'}>
+                        <Login/>
+                    </Col>}
+                </Row>
             </ul>
         </nav>
     );
