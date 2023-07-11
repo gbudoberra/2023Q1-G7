@@ -6,7 +6,7 @@ import json
 def main(event, context):
     s3 = boto3.client('s3')
 
-    bucket_name = 'images-adoptemos-todos-g7-cloud'
+    bucket_name = 'images-adoptemos-todos-g7-cloud-gaspar'
 
     body = json.loads(event['body'])
 

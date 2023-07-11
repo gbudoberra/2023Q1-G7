@@ -5,6 +5,7 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 import Image from "./Image";
+import ConfirmPopup from "./ConfirmPopup";
 
 function Pets({}) {
 
@@ -32,6 +33,9 @@ function Pets({}) {
                     {pet.situation === 0 ? <Card.Text>Disponible</Card.Text> : <Card.Text>Adoptado</Card.Text>}
                     {pet.type === 0 ? <Card.Text>Perro</Card.Text> : <Card.Text>Gato</Card.Text>}
                     {pet.age === 0 ? <Card.Text>Joven</Card.Text> : <Card.Text>Veterano</Card.Text>}
+                    {context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER' &&
+                        <ConfirmPopup message={'Enviar solicitud'} pet={pet} context={context}/>
+                    }
                 </Card.Body>
             </Card>
         </Col>))}

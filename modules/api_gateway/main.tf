@@ -1,5 +1,5 @@
 resource "aws_api_gateway_rest_api" "this" {
-  name  = "AdoptemosTodos"
+  name = "AdoptemosTodos"
 
 }
 
@@ -15,8 +15,8 @@ resource "aws_api_gateway_deployment" "this" {
   }
 
   depends_on = [aws_api_gateway_integration.get_pets,
-  aws_api_gateway_integration.post_pets, aws_api_gateway_integration.get_pet, aws_api_gateway_integration.get_users,
-  aws_api_gateway_integration.get_applications_adopter, aws_api_gateway_integration.get_applications_ong,
+    aws_api_gateway_integration.post_pets, aws_api_gateway_integration.get_pet, aws_api_gateway_integration.get_users,
+    aws_api_gateway_integration.get_applications_adopter, aws_api_gateway_integration.get_applications_ong,
   aws_api_gateway_integration.post_applications, aws_api_gateway_integration.get_image, aws_api_gateway_integration.post_image]
 }
 
@@ -68,7 +68,7 @@ resource "aws_api_gateway_integration" "get_pets" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.pets.id
   http_method             = aws_api_gateway_method.get_pets.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -90,7 +90,7 @@ resource "aws_api_gateway_integration" "post_pets" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.pets.id
   http_method             = aws_api_gateway_method.post_pets.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -119,7 +119,7 @@ resource "aws_api_gateway_integration" "get_pet" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.pet.id
   http_method             = aws_api_gateway_method.get_pet.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -148,7 +148,7 @@ resource "aws_api_gateway_integration" "get_users" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.users.id
   http_method             = aws_api_gateway_method.get_users.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -169,6 +169,12 @@ resource "aws_api_gateway_resource" "applications_adopter" {
   rest_api_id = aws_api_gateway_rest_api.this.id
   parent_id   = aws_api_gateway_rest_api.this.root_resource_id
   path_part   = "applications_adopter"
+}
+
+resource "aws_api_gateway_resource" "adopt" {
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  parent_id   = aws_api_gateway_rest_api.this.root_resource_id
+  path_part   = "adopt"
 }
 
 ### GET
@@ -192,7 +198,7 @@ resource "aws_api_gateway_integration" "get_applications_ong" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.applications_ong.id
   http_method             = aws_api_gateway_method.get_applications_ong.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -203,7 +209,7 @@ resource "aws_api_gateway_integration" "get_applications_adopter" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.applications_adopter.id
   http_method             = aws_api_gateway_method.get_applications_adopter.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -225,13 +231,53 @@ resource "aws_api_gateway_integration" "post_applications" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.applications_adopter.id
   http_method             = aws_api_gateway_method.post_applications.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
   type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
   uri                     = var.post_apps_arn
 }
+
+resource "aws_api_gateway_method" "adopt_pet" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  resource_id   = aws_api_gateway_resource.adopt.id
+  http_method   = "POST"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api_cognito_ong.id
+}
+
+resource "aws_api_gateway_integration" "adopt_pet" {
+  rest_api_id             = aws_api_gateway_rest_api.this.id
+  resource_id             = aws_api_gateway_resource.adopt.id
+  http_method             = aws_api_gateway_method.post_applications.http_method
+  request_parameters      = {}
+  request_templates       = {}
+  content_handling        = "CONVERT_TO_TEXT"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
+  uri                     = var.adopt_pet_arn
+}
+
+# resource "aws_api_gateway_method" "cancel_application" {
+#   rest_api_id   = aws_api_gateway_rest_api.this.id
+#   resource_id   = aws_api_gateway_resource.cancel.id
+#   http_method   = "POST"
+#   authorization = "COGNITO_USER_POOLS"
+#   authorizer_id = aws_api_gateway_authorizer.api_cognito_ong.id
+# }
+
+# resource "aws_api_gateway_integration" "cancel_application" {
+#   rest_api_id             = aws_api_gateway_rest_api.this.id
+#   resource_id             = aws_api_gateway_resource.cancel.id
+#   http_method             = aws_api_gateway_method.post_applications.http_method
+#   request_parameters      = {}
+#   request_templates       = {}
+#   content_handling        = "CONVERT_TO_TEXT"
+#   integration_http_method = "POST"
+#   type                    = "AWS_PROXY" # NOTE: we could try with AWS_PROXY too
+#   uri                     = var.cancel_application_arn
+# }
 
 ### IMAGEs ###
 
@@ -254,7 +300,7 @@ resource "aws_api_gateway_integration" "get_image" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.image.id
   http_method             = aws_api_gateway_method.get_image.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
@@ -276,7 +322,7 @@ resource "aws_api_gateway_integration" "post_image" {
   rest_api_id             = aws_api_gateway_rest_api.this.id
   resource_id             = aws_api_gateway_resource.image.id
   http_method             = aws_api_gateway_method.post_image.http_method
-  request_parameters = {}
+  request_parameters      = {}
   request_templates       = {}
   content_handling        = "CONVERT_TO_TEXT"
   integration_http_method = "POST"
