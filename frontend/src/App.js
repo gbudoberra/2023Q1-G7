@@ -14,20 +14,20 @@ function App() {
 
     const context = {
         cdn: {
-            url: 'https://dee0fj8jo4th8.cloudfront.net/', api_gw: 'https://dee0fj8jo4th8.cloudfront.net/prod_stage/'
+            url: 'https://dpapzvkpwvmip.cloudfront.net/', api_gw: 'https://dpapzvkpwvmip.cloudfront.net/prod_stage/'
         }, cognito: {
             adopter: {
-                client_id: '4pptcblv5imngtcurafnn23t56',
+                client_id: '3ugf68hcj8beg4hvo654fs2adv',
                 auth_url: 'https://adopters-user-pool.auth.us-east-1.amazoncognito.com/oauth2/token',
                 url: 'https://adopters-user-pool.auth.us-east-1.amazoncognito.com/',
-                hosted_ui: 'https://adopters-user-pool.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=4pptcblv5imngtcurafnn23t56&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdee0fj8jo4th8.cloudfront.net%2F'
+                hosted_ui: 'https://adopters-user-pool.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=3ugf68hcj8beg4hvo654fs2adv&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdpapzvkpwvmip.cloudfront.net%2F'
 
             },
             ong: {
-                client_id: '28e8jcu56jhtvc87ko5mtjsr0t',
+                client_id: 'fo601u0tabmplrrf9lg7ukj0a',
                 auth_url: 'https://ongs-user-pool.auth.us-east-1.amazoncognito.com/oauth2/token',
                 url: 'https://ongs-user-pool.auth.us-east-1.amazoncognito.com/',
-                hosted_ui: 'https://ongs-user-pool.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=28e8jcu56jhtvc87ko5mtjsr0t&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdee0fj8jo4th8.cloudfront.net%2F'
+                hosted_ui: 'https://ongs-user-pool.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=fo601u0tabmplrrf9lg7ukj0a&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fdpapzvkpwvmip.cloudfront.net%2F'
             }
         },
         auth: {

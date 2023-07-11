@@ -21,7 +21,7 @@ def main(event, context):
 
     query_parameters = event['queryStringParameters']
     email = query_parameters['email']
-    name = query_parameters['name']
+    name = query_parameters['username']
 
     response = table.get_item(Key={'Name': name, 'Email': email})
     ong = response.get('Item')

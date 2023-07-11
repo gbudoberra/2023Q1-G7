@@ -9,13 +9,13 @@ function OngLogin({authenticated, setAuthenticated}) {
     const context = useContext(MyContext);
 
     useEffect(() => {
-        if(!context.auth.authenticated){
-            const params = new URLSearchParams(window.location.search);
-            const code = params.get('code');
-            if (code) {
-                OngLogin(code)
-            } else setAuthenticated(false)
-        }
+        // if(!context.auth.authenticated){
+        //     const params = new URLSearchParams(window.location.search);
+        //     const code = params.get('code');
+        //     if (code) {
+        //         OngLogin(code)
+        //     } else setAuthenticated(false)
+        // }
     }, [])
 
     const OngLogin = (code) => {
@@ -35,18 +35,18 @@ function OngLogin({authenticated, setAuthenticated}) {
             },
         };
 
-        axios.post(endpoint, data, config)
-            .then((response) => {
-                console.log(response.data);
-                context.auth.setRole(getRole(response.data.id_token, context))
-                axios.defaults.headers.common['Authorization'] = response.data.id_token;
-                console.log('AUTH ROLE: ' + context.auth.role)
-                setAuthenticated(true)
-            })
-            .catch((error) => {
-                console.error(error);
-                setAuthenticated(false)
-            });
+        // axios.post(endpoint, data, config)
+        //     .then((response) => {
+        //         console.log(response.data);
+        //         context.auth.setRole(getRole(response.data.id_token, context))
+        //         axios.defaults.headers.common['Authorization'] = response.data.id_token;
+        //         console.log('AUTH ROLE: ' + context.auth.role)
+        //         setAuthenticated(true)
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //         // setAuthenticated(false)
+        //     });
 
     };
 

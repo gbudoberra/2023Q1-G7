@@ -30,7 +30,7 @@ function Applications() {
     }, [])
 
     useEffect(() => {
-        axios.get(context.cdn.api_gw + 'applications')
+        axios.get(context.cdn.api_gw + 'applications_adopter')
             .then(response => {
                 const list = response.data;
                 setApplications(list)

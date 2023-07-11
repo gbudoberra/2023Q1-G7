@@ -39,14 +39,18 @@ function AdopterLogin({authenticated, setAuthenticated}) {
         axios.post(endpoint, data, config)
             .then((response) => {
                 console.log(response.data);
-                context.auth.setRole(getRole(response.data.id_token, context))
-                axios.defaults.headers.common['Authorization'] = response.data.id_token;
-                console.log('AUTH ROLE: ' + context.auth.role)
-                setAuthenticated(true)
+                getRole(response.data.id_token, context).then((role) => {
+                    context.auth.setRole(role)
+                    axios.defaults.headers.common['Authorization'] = response.data.id_token;
+                    console.log('ROLE: ' + role)
+                    setAuthenticated(true)
+                }).catch((error) => {
+                    console.error(error);
+                })
             })
             .catch((error) => {
                 console.error(error);
-                setAuthenticated(false)
+                // setAuthenticated(false)
             });
 
     };
