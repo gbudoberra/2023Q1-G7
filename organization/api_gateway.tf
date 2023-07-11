@@ -16,8 +16,8 @@ module "apigw" {
   post_apps_arn                 = module.lambda["post_application"].invoke_arn
   get_image_arn                 = module.lambda["get_image"].invoke_arn
   post_image_arn                = module.lambda["post_image"].invoke_arn
-  adopt_pet_arn                     = module.lambda["adopt_pet"].invoke_arn
-  cancel_application_arn        = module.lambda["cancel_application"].invoke_arn
+  adopt_pet_arn                 = module.lambda["adopt_pet"].invoke_arn
+  # cancel_application_arn        = module.lambda["cancel_application"].invoke_arn
   #  post_register_ong_arn = module.lambda["post_register_ong"].invoke_arn
   #  post_register_adopter_arn = module.lambda["post_register_adopter"].invoke_arn
 

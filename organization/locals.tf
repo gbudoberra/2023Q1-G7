@@ -118,22 +118,12 @@ locals {
     }
     "adopt_pet" = {
       filename      = "${local.path}/lambda/applications/lambda_adopt_pet.zip"
-      function_name = "lambda_adopt_pet"
+      function_name = "adopt_pet"
       handler       = "lambda_adopt_pet.main"
       description   = "Post ong lambda"
       runtime       = "python3.9"
       method        = "POST"
       path          = "/adopt"
-      part_path     = "application"
-    }
-    "cancel_application" = {
-      filename      = "${local.path}/lambda/applications/lambda_cancel_application.zip"
-      function_name = "lambda_cancel_application"
-      handler       = "lambda_cancel_applications.main"
-      description   = "Post ong lambda"
-      runtime       = "python3.9"
-      method        = "POST"
-      path          = "/cancel"
       part_path     = "application"
     }
   }

@@ -1,7 +1,6 @@
 import json
-
 import boto3
-
+from boto3.dynamodb.conditions import Key
 
 def main(event, context):
     dynamodb = boto3.resource('dynamodb')
@@ -13,30 +12,30 @@ def main(event, context):
     adopter_username = body['adopter_username']
     ong_username = body['ong_username']
     pet_name = body['pet_name']
-
-    application_item = {
-        'ong_username#pet': ong_username + '#' + pet_name,
-        "adopter_username": adopter_username,
-        "situation": 1
-    }
-    # cancell all other applications for this pet
-    hash_key = ong_username + '#' + pet_name
-    table.update_item(
-        Key={"ong_username#pet": hash_key},
-        Item=application_item)
+    
+    hash_key = f"{ong_username}#{pet_name}"
+    
+    # response = table.query(
+    #     IndexName='AdopterIndex',
+    #     KeyConditionExpression=Key('adopter_username').eq(adopter_username)
+    # )
+    
+    response = table.query(
+        KeyConditionExpression=Key('ong_username#pet').eq(hash_key)
+    )
     
 
+    items = response['Items']
 
-    application_item = {
-        'ong_username#pet': ong_username + '#' + pet_name,
-        "adopter_username": adopter_username,
-        "situation": 2
-    }
-    # confirm the corresponding application
-    hash_key = ong_username + '#' + pet_name
-    table.update_item(
-        Key={"ong_username#pet": hash_key, "adopter_username": adopter_username},
-        Item=application_item)
+    for item in items:
+        # Update each item's situation to canceled except for the specific adopter
+        if item['adopter_username'] == adopter_username:
+            item['situation'] = 2  # Confirm the specific adopter's application
+        else:
+            item['situation'] = 1  # Cancel other applications
+
+        # Update the item in DynamoDB
+        table.put_item(Item=item)
 
     response = {
         'statusCode': 200,
@@ -44,7 +43,7 @@ def main(event, context):
             'Access-Control-Allow-Origin': '*',
         },
         'body': json.dumps({
-            'message': 'Application created successfully!'
+            'message': 'Application updated successfully!'
         })
     }
 
