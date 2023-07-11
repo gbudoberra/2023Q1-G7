@@ -20,7 +20,7 @@ def main(event, context):
         'type': pet_type,
         'age': age,
         'situation': 0,
-        'name': name
+        'pet_name': name
     }
     table.put_item(Item=pet_item)
 
