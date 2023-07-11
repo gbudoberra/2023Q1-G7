@@ -19,8 +19,8 @@ def main(event, context):
     # Create the pet item in DynamoDB
     pet_item = {
         'ong_username': ong_username,
-        'type': pet_type,
-        'age': age,
+        'type': int(pet_type),
+        'age': int(age),
         'situation': 0,
         'pet_name': name
     }

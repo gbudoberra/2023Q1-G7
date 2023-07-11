@@ -4,6 +4,7 @@ import MyContext from "./MyContext";
 import React, {useState} from "react";
 import Navbar from "./Components/Navbar"
 import Applications from "./Components/Applications";
+import PublishPet from "./Components/PublishPet";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
                     <div className="col">
                         {section === 'pets' && <Pets/>}
                         {section === 'applications' && <Applications/>}
+                        {section === 'publishPet' && <PublishPet/>}
                     </div>
                 </div>
             </div>
