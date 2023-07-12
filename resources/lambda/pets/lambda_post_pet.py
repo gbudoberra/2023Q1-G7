@@ -29,7 +29,7 @@ def main(event, context):
     # Image
     s3 = boto3.client('s3')
 
-    bucket_name = 'images-adoptemos-todos-g7-cloud-gaspar'
+    bucket_name = 'images-adoptemos-todos-g7-cloud'
 
     image_data = body['image']
     key = name

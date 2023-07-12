@@ -130,13 +130,13 @@ locals {
 
   cognito = {
     user_pools = [{
-      name              = "ongs-user-pool-gaspar",
+      name              = "ongs-user-pool",
       post_confirmation = module.lambda["post_register_ong"].arn,
       lambda_name       = "post_register_ong",
       client_name       = "ongs-client"
       },
       {
-        name              = "adopters-user-pool-gaspar",
+        name              = "adopters-user-pool",
         post_confirmation = module.lambda["post_register_adopter"].arn,
         lambda_name       = "post_register_adopter",
         client_name       = "adopters-client"
@@ -273,10 +273,10 @@ locals {
   # Site bucket
   buckets = {
     site_bucket = {
-      name = "site-adoptemos-todos-g7-cloud-gaspar",
+      name = "site-adoptemos-todos-g7-cloud",
     }
     logs_bucket = {
-      names = { site = "logs-site-adoptemos-todos-g7-cloud-gaspar", cdn = "logs-cdn-adoptemos-todos-g7-cloud-gaspar" }
+      names = { site = "logs-site-adoptemos-todos-g7-cloud", cdn = "logs-cdn-adoptemos-todos-g7-cloud" }
     }
     default_server_side_encryption = {
       rule = {
