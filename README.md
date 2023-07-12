@@ -73,6 +73,5 @@
     * lifecycle ayuda al control de las operaciones que realiza Terraform mediante la creación de reglas particulares para cada recurso.
 
 ## Diagrama de arquitectura
-<img width="521" alt="Captura de Pantalla 2023-05-19 a la(s) 20 01 21" src="https://github.com/gbudoberra/2023Q1-G7/assets/67807324/b6ddaa22-cfa7-49dd-9786-8b0c0f634467">
-
+![Cloud-TP2-TP2](https://github.com/gbudoberra/2023Q1-G7/assets/67807324/296e4f4d-43c8-4a51-a829-c68e04134274)
 
