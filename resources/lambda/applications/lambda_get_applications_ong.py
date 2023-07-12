@@ -41,7 +41,7 @@ def main(event, context):
     try:
         response = table.query(
             KeyConditionExpression=
-            Key('ong_username').eq(ong_username)
+            Key('ong_username#pet').eq(ong_username)
         )
         applications = response['Items']
 
