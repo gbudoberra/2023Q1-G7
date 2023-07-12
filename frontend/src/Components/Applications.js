@@ -4,8 +4,8 @@ import axios from "axios";
 import React, {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 import Image from "./Image";
-import ConfirmPopup from "./ConfirmPopup";
 import {ApplicationsFunctions} from "../ApplicationsFunctions";
+import Row from "react-bootstrap/Row";
 
 // {
 //     "ong_username":"ong",
@@ -51,7 +51,7 @@ function Applications() {
     }, [])
 
     return (
-        <div>
+        <Row xs={1} md={2} className="g-4 m-2">
             {applications.length > 0 && applications.map((app) => {
                 return (
                     <Col key={app.id}>
@@ -59,18 +59,16 @@ function Applications() {
                             <Image petName={app['adopter_username#pet'].split('#')[1]}/>
                             <Card.Body>
                                 <Card.Title>{app['adopter_username#pet'].split('#')[1]}</Card.Title>
-                                {app.situation === 0 ? <Card.Text>En espera</Card.Text> :
-                                    <Card.Text>Adoptado</Card.Text>}
+                                {app.situation === 0 ?
+                                    <Card.Text><span style={{color: 'orange'}}>En espera</span></Card.Text> :
+                                    app.situation === 1 ?
+                                        <Card.Text><span style={{color: 'red'}}>Cancelado</span></Card.Text> :
+                                        <Card.Text color={'green'}><span
+                                            style={{color: 'green'}}>Aceptado</span></Card.Text>}
                                 {(context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER') ?
                                     <Card.Text>ONG: {app.ong_username}</Card.Text> :
-                                    <Card.Text>Solicitante: {app.adopter_username}</Card.Text>}
-                                {context.auth.authenticated && context.auth.authenticated.role === 'ONG' &&
-                                    // <ConfirmPopup onClickAccept={ApplicationsFunctions.accept} message={'Enviar solicitud'} btnMessage={'Aplicar'}
-                                    //               pet={app.pet_name}
-                                    //               adopter={app.adopter_username}
-                                    //               ong={context.auth.authenticated.username}
-                                    //               api_gw={context.cdn.api_gw}
-                                    // />
+                                    <Card.Text>Solicitante: {app['adopter_username#pet'].split('#')[0]}</Card.Text>}
+                                {context.auth.authenticated && context.auth.authenticated.role === 'ONG' && app.situation === 0 &&
                                     <button type="button" data-dismiss="modal"
                                             style={{
                                                 background: 'darkgreen'
@@ -92,7 +90,7 @@ function Applications() {
             })}
             {applications.length === 0 &&
                 <Col className='text-center m-5'><span>No tiene ninguna solicitud</span></Col>}
-        </div>)
+        </Row>)
 }
 
 export default Applications;

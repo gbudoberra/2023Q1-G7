@@ -44,7 +44,7 @@ function App() {
                     <div className="col">
                         {section === 'pets' && <Pets/>}
                         {section === 'applications' && <Applications/>}
-                        {section === 'publishPet' && <PublishPet/>}
+                        {section === 'publishPet' && <PublishPet setSection={setSection}/>}
                     </div>
                 </div>
             </div>

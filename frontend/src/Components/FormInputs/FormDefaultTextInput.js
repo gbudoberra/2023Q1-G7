@@ -15,7 +15,7 @@ const FormDefaultTextInput = ({field, onChange, style}) => {
                 />
                 <label>
                     {field.error && <p style={{color: 'red'}}>{field.errorMessage}</p>}
-                    {field.placeholder}{field.required ? " *" : ""}
+                    {/*{field.placeholder}{field.required ? " *" : ""}*/}
                 </label>
             </div>
         </div>

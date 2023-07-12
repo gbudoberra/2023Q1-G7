@@ -32,18 +32,12 @@ function Pets({}) {
                     <Image petName={pet.pet_name}/>
                     <Card.Body>
                         <Card.Title>{pet.pet_name}</Card.Title>
-                        {pet.situation === 0 ? <Card.Text>Disponible</Card.Text> : <Card.Text>Adoptado</Card.Text>}
+                        {pet.situation === 0 ?
+                            <Card.Text><span style={{color: 'orange'}}>Disponible</span></Card.Text> :
+                            <Card.Text><span style={{color: 'green'}}>Adoptado</span></Card.Text>}
                         {pet.type === 0 ? <Card.Text>Perro</Card.Text> : <Card.Text>Gato</Card.Text>}
                         {pet.age === 0 ? <Card.Text>Joven</Card.Text> : <Card.Text>Veterano</Card.Text>}
                         {context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER' &&
-                            // <ConfirmPopup
-                            //     onClickAccept={ApplicationsFunctions.apply}
-                            //     message={'Enviar solicitud'} btnMessage={'Aplicar'}
-                            //     pet={pet.pet_name}
-                            //     adopter={context.auth.authenticated.username}
-                            //     ong={pet.ong_username}
-                            //     api_gw={context.cdn.api_gw}
-                            // />
                             <button type="button" data-dismiss="modal"
                                     style={{
                                         background: 'darkgreen'

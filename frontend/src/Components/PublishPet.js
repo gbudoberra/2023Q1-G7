@@ -3,11 +3,13 @@ import MyContext from "../MyContext";
 import FormSelectInput from "./FormInputs/FormSelectInput";
 import FormDefaultTextInput from "./FormInputs/FormDefaultTextInput";
 import {PostPetFunctions} from "../PostPetFunctions";
+import toast from "bootstrap/js/src/toast";
+import Card from "react-bootstrap/Card";
 
 
 //context.auth.authenticated.username
 
-function PublishPet() {
+function PublishPet({setSection}) {
 
     const context = useContext(MyContext);
 
@@ -41,7 +43,7 @@ function PublishPet() {
             name: 'petType',
             placeholder: "Tipo",
             required: true,
-            options: [{value: '', text: 'Seleccione una opción'}, {
+            options: [{value: '', text: 'Seleccione un tipo'}, {
                 value: 0, text: 'Perro'}, {value: 1, text: 'Gato'}],
             error: '',
             errorMessage: ''
@@ -51,7 +53,7 @@ function PublishPet() {
             name: 'age',
             placeholder: 'Edad',
             required: true,
-            options: [{value: '', text: 'Seleccione una opción'}, {
+            options: [{value: '', text: 'Seleccione una edad'}, {
                 value: 0, text: 'Joven'}, {value: 1, text: 'Veterano'}],
             error: '',
             errorMessage: ''
@@ -113,46 +115,53 @@ function PublishPet() {
         console.log(image)
 
         PostPetFunctions.submit(context.cdn.api_gw, context.auth.authenticated.username, name, animal, age, image).
-        then(()=> setIsPending(false))
+        then(()=> {
+            setIsPending(false)
+            toast.succeed("Se publicó la mascota correctamente.")
+            setSection('pets')
+            })
 
     }
 
     return (
-        <form onSubmit={e => onSubmit(e)} encType="multipart/form-data">
-        <div className="container">
+        <Card style={{margin: '50px'}} className={'w-75 mx-auto'}>
+            <Card.Body>
+                <form onSubmit={e => onSubmit(e)} encType="multipart/form-data">
+        <div className="container container-fluid pt-5">
             <div className="row mb-3">
                 <div className="col">
                     <FormDefaultTextInput field={fields.name} onChange={onChange}/>
                 </div>
+            </div>
+            <div className="row mb-3">
                 <div className="col">
                     <FormSelectInput field={fields.animal} onChange={onChange}/>
                 </div>
-            </div>
-            <div className=" row mb-3">
                 <div className="col">
                     <FormSelectInput field={fields.age} onChange={onChange}/>
                 </div>
+            </div>
+            <div className=" row mb-3">
                 <div className="col">
                     <div className="form-floating">
                         <input type="file" placeholder="Imagen"
                                className="form-control" accept="image/png, image/gif, image/jpeg" required={true}
                                onChange={onImageChange}/>
-                        <label>
-                            Imagen *
-                        </label>
                     </div>
                 </div>
             </div>
             <div className="row-publish row mb-3 text-center">
                 <div className="col col-publish">
                     <div>
-                        <input type="submit" disabled={isPending} value={"Publicar"}
-                               className="btn btn-primary btn-lg"/>
+                        <button type="submit" disabled={isPending}>Publicar</button>
                     </div>
                 </div>
             </div>
         </div>
-    </form>)
+    </form>
+            </Card.Body>
+        </Card>
+        )
 }
 
 export default PublishPet;
