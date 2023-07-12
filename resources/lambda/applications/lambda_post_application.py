@@ -17,9 +17,9 @@ def main(event, context):
 
     # Create the pet item in DynamoDB
     application_item = {
+        'adopter_username#pet': adopter_username + '#' + pet_id,
+        'ong_username': ong_username,
         'adopter_username': adopter_username,
-        'ong_username#pet': ong_username + '#' + pet_id,
-        # 'pet_name': pet_id,
         'situation': application_situation
     }
     table.put_item(Item=application_item)

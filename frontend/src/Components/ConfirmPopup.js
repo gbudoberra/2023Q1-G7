@@ -1,6 +1,6 @@
 import React from "react";
 
-function ConfirmPopup({btnMessage, message, onClickAccept}) {
+function ConfirmPopup({btnMessage, message, onClickAccept, api_gw, adopter, ong, pet}) {
     return (<div>
         <button data-toggle="modal"
                 data-target="#exampleModalCenter">
@@ -18,7 +18,14 @@ function ConfirmPopup({btnMessage, message, onClickAccept}) {
                         <button type="button" data-dismiss="modal"
                                 style={{
                                     background: 'darkgreen'
-                                }} onClick={onClickAccept}
+                                }} onClick={() => {
+                                    onClickAccept(api_gw, pet, adopter, ong).then((r) => {
+                                                console.log('ACCEPT THEN', r)
+                                            })
+                                            .catch((r) => {
+                                                console.error('ACCEPT CATCH', r)
+                                            })
+                                }}
                         >Confirmar
                         </button>
                         <button type="button" style={{

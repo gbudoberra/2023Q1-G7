@@ -91,8 +91,8 @@ module "cdn" {
       query_string = true
 
       min_ttl     = 0
-      default_ttl = 3600
-      max_ttl     = 86400
+      default_ttl = 1
+      max_ttl     = 1
     }
   ]
 

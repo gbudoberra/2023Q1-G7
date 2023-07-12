@@ -18,7 +18,7 @@ class DecimalEncoder(json.JSONEncoder):
 error_response = {
     'statusCode': 500,
     'headers': {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '',
     },
     'body': json.dumps({
         'message': 'Error getting applications.'
@@ -41,14 +41,14 @@ def main(event, context):
     try:
         response = table.query(
             KeyConditionExpression=
-            Key('ong_username#pet').eq(ong_username)
+            Key('ong_username').eq(ong_username)
         )
         applications = response['Items']
 
         response = {
             'statusCode': 200,
             'headers': {
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': '',
             },
             'body': json.dumps(applications, cls=DecimalEncoder)
         }

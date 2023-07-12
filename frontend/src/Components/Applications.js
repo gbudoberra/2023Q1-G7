@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 import Image from "./Image";
 import ConfirmPopup from "./ConfirmPopup";
@@ -56,24 +56,34 @@ function Applications() {
                 return (
                     <Col key={app.id}>
                         <Card style={{width: '300px'}}>
-                            <Image petName={app.pet_name}/>
+                            <Image petName={app['adopter_username#pet'].split('#')[1]}/>
                             <Card.Body>
-                                <Card.Title>{app.pet_name}</Card.Title>
+                                <Card.Title>{app['adopter_username#pet'].split('#')[1]}</Card.Title>
                                 {app.situation === 0 ? <Card.Text>En espera</Card.Text> :
                                     <Card.Text>Adoptado</Card.Text>}
                                 {(context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER') ?
                                     <Card.Text>ONG: {app.ong_username}</Card.Text> :
                                     <Card.Text>Solicitante: {app.adopter_username}</Card.Text>}
                                 {context.auth.authenticated && context.auth.authenticated.role === 'ONG' &&
-                                    <ConfirmPopup onClickAccept={() => {
-                                        ApplicationsFunctions.accept(context.cdn.api_gw, app.pet_name, app.adopter_username, context.auth.authenticated.username)
-                                            .then((r) => {
-                                                console.log('ACCEPT THEN', r)
-                                            })
+                                    // <ConfirmPopup onClickAccept={ApplicationsFunctions.accept} message={'Enviar solicitud'} btnMessage={'Aplicar'}
+                                    //               pet={app.pet_name}
+                                    //               adopter={app.adopter_username}
+                                    //               ong={context.auth.authenticated.username}
+                                    //               api_gw={context.cdn.api_gw}
+                                    // />
+                                    <button type="button" data-dismiss="modal"
+                                            style={{
+                                                background: 'darkgreen'
+                                            }} onClick={() => {
+                                        ApplicationsFunctions.accept(context.cdn.api_gw, app['adopter_username#pet'].split('#')[1], app['adopter_username#pet'].split('#')[0], context.auth.authenticated.username).then((r) => {
+                                            console.log('ACCEPT THEN', r)
+                                        })
                                             .catch((r) => {
                                                 console.error('ACCEPT CATCH', r)
                                             })
-                                    }} message={'Enviar solicitud'} btnMessage={'Aplicar'}/>
+                                    }}
+                                    >Aceptar
+                                    </button>
                                 }
                             </Card.Body>
                         </Card>

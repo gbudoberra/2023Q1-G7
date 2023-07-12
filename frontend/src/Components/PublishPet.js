@@ -42,7 +42,7 @@ function PublishPet() {
             placeholder: "Tipo",
             required: true,
             options: [{value: '', text: 'Seleccione una opción'}, {
-                value: 0, text: 'Perro'}, {value: 1, text: 'Gato'}, {value: 2, text: 'Otro'}],
+                value: 0, text: 'Perro'}, {value: 1, text: 'Gato'}],
             error: '',
             errorMessage: ''
         }, age: {
@@ -52,7 +52,7 @@ function PublishPet() {
             placeholder: 'Edad',
             required: true,
             options: [{value: '', text: 'Seleccione una opción'}, {
-                value: 0, text: 'Cachorro'}, {value: 1, text: 'Adolescente'}, {value: 2, text: 'Adulto'}],
+                value: 0, text: 'Joven'}, {value: 1, text: 'Veterano'}],
             error: '',
             errorMessage: ''
         }

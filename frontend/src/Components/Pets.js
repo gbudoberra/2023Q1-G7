@@ -2,7 +2,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MyContext from "../MyContext";
 import Image from "./Image";
 import ConfirmPopup from "./ConfirmPopup";
@@ -26,28 +26,42 @@ function Pets({}) {
     }, [])
 
     return (<Row xs={1} md={2} className="g-4 m-2">
-        {pets.length > 0 && pets.map((pet) => (<Col key={pet.id} className={'m-1'}>
-            <Card style={{width: '300px'}}>
-                <Image petName={pet.pet_name}/>
-                <Card.Body>
-                    <Card.Title>{pet.pet_name}</Card.Title>
-                    {pet.situation === 0 ? <Card.Text>Disponible</Card.Text> : <Card.Text>Adoptado</Card.Text>}
-                    {pet.type === 0 ? <Card.Text>Perro</Card.Text> : <Card.Text>Gato</Card.Text>}
-                    {pet.age === 0 ? <Card.Text>Joven</Card.Text> : <Card.Text>Veterano</Card.Text>}
-                    {context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER' &&
-                        <ConfirmPopup onClickAccept={() => {
-                            ApplicationsFunctions.apply(context.cdn.api_gw, pet.pet_name, context.auth.authenticated.username, pet.ong_username)
-                                .then((r) => {
-                                    console.log('APPLY THEN', r)
+        {pets.length > 0 && pets.map((pet) => {
+            return (<Col key={pet.pet_name} className={'m-1'}>
+                <Card style={{width: '300px'}}>
+                    <Image petName={pet.pet_name}/>
+                    <Card.Body>
+                        <Card.Title>{pet.pet_name}</Card.Title>
+                        {pet.situation === 0 ? <Card.Text>Disponible</Card.Text> : <Card.Text>Adoptado</Card.Text>}
+                        {pet.type === 0 ? <Card.Text>Perro</Card.Text> : <Card.Text>Gato</Card.Text>}
+                        {pet.age === 0 ? <Card.Text>Joven</Card.Text> : <Card.Text>Veterano</Card.Text>}
+                        {context.auth.authenticated && context.auth.authenticated.role === 'ADOPTER' &&
+                            // <ConfirmPopup
+                            //     onClickAccept={ApplicationsFunctions.apply}
+                            //     message={'Enviar solicitud'} btnMessage={'Aplicar'}
+                            //     pet={pet.pet_name}
+                            //     adopter={context.auth.authenticated.username}
+                            //     ong={pet.ong_username}
+                            //     api_gw={context.cdn.api_gw}
+                            // />
+                            <button type="button" data-dismiss="modal"
+                                    style={{
+                                        background: 'darkgreen'
+                                    }} onClick={() => {
+                                ApplicationsFunctions.apply(context.cdn.api_gw, pet.pet_name, context.auth.authenticated.username, pet.ong_username).then((r) => {
+                                    console.log('apply THEN', r)
                                 })
-                                .catch((r) => {
-                                    console.error('APPLY CATCH', r)
-                                })
-                        }} message={'Enviar solicitud'} btnMessage={'Aplicar'}/>
-                    }
-                </Card.Body>
-            </Card>
-        </Col>))}
+                                    .catch((r) => {
+                                        console.error('apply CATCH', r)
+                                    })
+                            }}
+                            >Aplicar
+                            </button>
+                        }
+                    </Card.Body>
+                </Card>
+            </Col>)
+        })}
         {pets.length === 0 && <Col className='text-center m-5'><span>Sin mascotas</span></Col>}
     </Row>);
 }

@@ -232,12 +232,16 @@ locals {
 
       applications = {
         name      = "applications",
-        hash_key  = "ong_username#pet"
-        range_key = "adopter_username"
+        hash_key  = "ong_username"
+        range_key = "adopter_username#pet"
 
         attributes = [
           {
-            name = "ong_username#pet"
+            name = "ong_username"
+            type = "S"
+          },
+          {
+            name = "adopter_username#pet"
             type = "S"
           },
           {
