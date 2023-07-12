@@ -38,6 +38,18 @@ def main(event, context):
         # Update the item in DynamoDB
         table.put_item(Item=item)
 
+    # get pet
+    table_name = 'pets'
+    table1 = dynamodb.Table(table_name)
+
+    # Retrieve all pets from the DynamoDB table
+    # ong_id = int(ong_id)
+    response = table1.get_item(Key={'ong_username': ong_username, 'pet_name': pet_name})
+    pet = response.get('Item')
+
+    pet['situation'] = 1
+    table1.put_item(Item=pet)
+
     response = {
         'statusCode': 200,
         'headers': {
